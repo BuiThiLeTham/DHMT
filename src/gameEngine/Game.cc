@@ -11,7 +11,7 @@
 #include <entities/gameObjects/BatteryHolder.h>
 #include <entities/gameObjects/ParticleHolder.h>
 #include <entities/gameObjects/Camera.h>
-#include <entities/gameObjects/Tree.h>
+// #include <entities/gameObjects/Tree.h>  // ❌ Đã xóa cây
 #include <models/Geometry.h>
 #include <renderEngine/DisplayManager.h>
 #include <io/MouseManager.h>
@@ -46,7 +46,7 @@ Game::Game() {
 }
 
 Game::~Game() {
-  TreeManager::cleanup();
+  // TreeManager::cleanup();  // ❌ Đã xóa cây
   DisplayManager::cleanDisplay();
   Geometry::cleanGeometry();
 }
@@ -57,8 +57,8 @@ void Game::init() {
   Geometry::initGeometry();
   Light::theOne().setPosition(LIGHT::X, LIGHT::Y, LIGHT::Z);
   
-  // Tạo rừng cây 🌳
-  TreeManager::init();
+  // ❌ XÓA CÂY
+  // TreeManager::init();
 }
 
 Game& Game::theOne() {
