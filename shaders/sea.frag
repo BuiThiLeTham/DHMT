@@ -37,9 +37,8 @@ void main() {
   vec3 groundColor = vec3(0.4, 0.3, 0.2);  // Màu nâu đất
   vec3 grassColor = vec3(0.3, 0.5, 0.2);   // Màu xanh cỏ
   vec3 terrainColor = mix(groundColor, grassColor, 0.6);  // Pha trộn
-  vec3 fogColor = vec3(0.968, 0.851, 0.667);
-
-  // directional light
+  
+  vec3 fogColor = vec3(0.69, 0.88, 0.9); // Màu bầu trời xanh (powder blue)  // directional light
   vec3 lightColor = vec3(1.0, 1.0, 1.0);
   vec3 lightDir = normalize(FragPos - lightPos);
 

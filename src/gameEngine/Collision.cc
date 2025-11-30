@@ -5,7 +5,7 @@
 #include <maths/Object3D.h>
 #include <models/Geometry.h>
 #include <entities/DynamicEntity.h>
-#include <entities/gameObjects/Airplane.h>
+#include <entities/gameObjects/Bird.h>
 #include <iostream>
 #include <vector>
 #include <algorithm>
@@ -28,9 +28,9 @@ void Collision::checkCollisionAgainstPlane() {
     vector<DynamicEntity*>& entities = entry.second;
     for (int i = 0; i < entities.size(); ++i) {
       DynamicEntity* entity = entities[i];
-      if (entity->getType() && overlap(entity->getBody(), Airplane::theOne().getBody().getBody())) {
+      if (entity->getType() && overlap(entity->getBody(), Bird::theOne().getBody().getBody())) {
         if (entity->getType() == OBSTACLE) {
-          Airplane::theOne().knockBack(entity->getPosition());
+          Bird::theOne().knockBack(entity->getPosition());
           GAME::HEALTH = std::max(0.0f, GAME::HEALTH - 10.0f);
         } else {
           GAME::HEALTH = std::min(100.0f, GAME::HEALTH + 1.0f);

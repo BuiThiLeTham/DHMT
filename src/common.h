@@ -7,9 +7,11 @@ const float BROWN[] = { 89.0f/255.0f, 51.0f/255.0f, 46.0f/255.0f };
 const float PINK[] = { 245.0f/255.0f, 152.0f/255.0f, 110.0f/255.0f };
 const float BROWNDARK[] = { 35.0f/255.0f, 25.0f/255.0f, 15.0f/255.0f };
 const float BLUE[] = { 104.0f/255.0f, 195.0f/255.0f, 192.0f/255.0f };
+const float GREEN[] = { 34.0f/255.0f, 139.0f/255.0f, 34.0f/255.0f }; // Màu xanh lá cho con sâu
 
-const float BACKGROUND_COLOR1[] = { 228.0f/255.0f, 224.0f/255.0f, 186.0f/255.0f };
-const float BACKGROUND_COLOR2[] = { 247.0f/255.0f, 217.0f/255.0f, 170.0f/255.0f };
+// Màu bầu trời xanh gradient
+const float BACKGROUND_COLOR1[] = { 135.0f/255.0f, 206.0f/255.0f, 250.0f/255.0f }; // Sky blue (trên)
+const float BACKGROUND_COLOR2[] = { 176.0f/255.0f, 224.0f/255.0f, 230.0f/255.0f }; // Powder blue (dưới)
 
 extern int WIDTH, HEIGHT, ACTUAL_WIDTH, ACTUAL_HEIGHT;
 extern float TIMER;

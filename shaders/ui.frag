@@ -23,9 +23,6 @@ void main() {
   if (x > size) {
     discard;
   }
-  if (health < 30.0) {
-    out_Color = vec4(242.0f/255.0f, 53.0f/255.0f, 30.0f/255.0f, 0.8f);
-  } else {
-    out_Color = vec4(104.0f/255.0f, 195.0f/255.0f, 192.0f/255.0f, 0.8f);
-  }
+  // Thanh máu luôn màu đỏ
+  out_Color = vec4(220.0f/255.0f, 20.0f/255.0f, 60.0f/255.0f, 0.9f); // Crimson red
 }

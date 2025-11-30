@@ -1,5 +1,5 @@
-// Airplane.cc
-#include "Airplane.h"
+// Bird.cc
+#include "Bird.h"
 #include "Camera.h"
 #include <common.h>
 #include <maths/Object3D.h>
@@ -28,9 +28,9 @@ glm::vec3 brown(BROWN[0], BROWN[1], BROWN[2]);  // Nâu - chân
 glm::vec3 black(0.1f, 0.1f, 0.1f);       // Đen - mắt
 glm::vec3 red(1.0f, 0.3f, 0.2f);         // Đỏ - mỏ
 
-vector<Entity*> Airplane::rigidBody;
+vector<Entity*> Bird::rigidBody;
 
-Airplane::Airplane() :
+Bird::Bird() :
   speed(0.0f),
   axisX(glm::vec4(1.0f, 0.0f, 0.0f, 0.0f)),
   axisY(glm::vec4(0.0f, 1.0f, 0.0f, 0.0f)),
@@ -112,9 +112,9 @@ Airplane::Airplane() :
   translate(AIRPLANE::X, AIRPLANE::Y, AIRPLANE::Z);
 }
 
-Airplane::~Airplane() {}
+Bird::~Bird() {}
 
-void Airplane::rotate(float dx, float dy, float dz, glm::vec3 center) {
+void Bird::rotate(float dx, float dy, float dz, glm::vec3 center) {
   rotation += glm::vec3(dx, dy, dz);
   float angle = dx != 0.0f ? dx : dy != 0.0f ? dy : dz;
   glm::mat4 rotationMatrix = Maths::calculateRotationMatrix(dx, dy, dz, center);
@@ -126,7 +126,7 @@ void Airplane::rotate(float dx, float dy, float dz, glm::vec3 center) {
   }
 }
 
-void Airplane::translate(float dx, float dy, float dz) {
+void Bird::translate(float dx, float dy, float dz) {
   position += glm::vec3(dx, dy, dz);
   glm::mat4 translationMatrix = Maths::calculateTranslationMatrix(dx, dy, dz);
   for (int i = 0; i < components.size(); ++i) {
@@ -135,7 +135,7 @@ void Airplane::translate(float dx, float dy, float dz) {
 }
 
 // Cập nhật lông vũ trên đầu (bay theo gió)
-void Airplane::updateFeathers() {
+void Bird::updateFeathers() {
   static float featherAngle = 0.0f;
   for (int i = 0; i < 12; ++i) {
     float height = 0.25f + glm::cos(featherAngle + i / 3) * 0.08f;
@@ -148,7 +148,7 @@ void Airplane::updateFeathers() {
 }
 
 // Tạo hiệu ứng vỗ cánh
-void Airplane::updateWings() {
+void Bird::updateWings() {
   static float wingAngle = 0.0f;
   
   // Tính góc vỗ cánh (dao động từ -30° đến +30°)
@@ -177,7 +177,7 @@ void Airplane::updateWings() {
   wingAngle += 0.2f; // Tốc độ vỗ cánh
 }
 
-void Airplane::update() {
+void Bird::update() {
   if (GAME::HEALTH <= 0.0f) {
     static float totalRotation = 0.0f;
     static float y = 0.0f;
@@ -219,18 +219,18 @@ void Airplane::update() {
   Camera::primary().chasePoint(position);
 } 
 
-void Airplane::knockBack(glm::vec3 otherPosition) {
+void Bird::knockBack(glm::vec3 otherPosition) {
   glm::vec3 distance = position - otherPosition;
   float length = glm::length(distance);
   COLLISION_SPEED_X = 20.0f * distance.x / length;
   AMBIENT_LIGHT_INTENSITY = 2.0f;
 }
 
-Entity& Airplane::getBody() {
+Entity& Bird::getBody() {
   return birdBody;
 }
 
-Airplane& Airplane::theOne() {
-  static Airplane airplane;
-  return airplane;
+Bird& Bird::theOne() {
+  static Bird bird;
+  return bird;
 }

@@ -13,6 +13,7 @@ namespace Geometry {
   extern RawModel* cockpit;
   extern RawModel* propeller;
   extern RawModel* quad;
+  extern RawModel* heart; // Hình trái tim
 
   void initGeometry();
   void cleanGeometry();

@@ -18,6 +18,7 @@ RawModel* Geometry::cockpit;
 RawModel* Geometry::propeller;
 RawModel* Geometry::tetrahedron;
 RawModel* Geometry::quad;
+RawModel* Geometry::heart;
 
 RawModel* createTetrahedron(int segments = 1);
 RawModel* createCube();
@@ -25,6 +26,7 @@ RawModel* createSea(float radius, float height, int radialSegments, int heightSe
 RawModel* createCockpit();
 RawModel* createPropeller();
 RawModel* createQuad();
+RawModel* createHeart();
 
 void Geometry::initGeometry() {
   tetrahedron = createTetrahedron();
@@ -34,6 +36,7 @@ void Geometry::initGeometry() {
   cockpit = createCockpit();
   propeller = createPropeller();
   quad = createQuad();
+  heart = createHeart();
 }
 
 void Geometry::cleanGeometry() {
@@ -44,6 +47,7 @@ void Geometry::cleanGeometry() {
   delete cockpit;
   delete propeller;
   delete quad;
+  delete heart;
 }
 
 /* helper functions for createTetrahedron */
@@ -150,6 +154,89 @@ RawModel* createQuad() {
   vertices.push_back(-0.5f);
   vertices.push_back(0.5f);
   return Loader::loadToVAO(vertices, 2);
+}
+
+RawModel* createHeart() {
+  vector<float> vertices;
+  vector<float> normals;
+  
+  int segments = 40; // Tăng độ mịn cho trái tim đẹp
+  int stacks = 40;
+  
+  // Công thức trái tim 3D chuẩn và đẹp
+  // x = 16*sin^3(t)
+  // y = 13*cos(t) - 5*cos(2t) - 2*cos(3t) - cos(4t)
+  // z = sin(s) để tạo độ dày
+  
+  for (int i = 0; i < stacks; ++i) {
+    float t1 = (2.0f * M_PI * i) / stacks;
+    float t2 = (2.0f * M_PI * (i + 1)) / stacks;
+    
+    for (int j = 0; j <= segments; ++j) {
+      float s1 = -1.0f + (2.0f * j) / segments;
+      float s2 = -1.0f + (2.0f * (j + 1)) / segments;
+      
+      // Công thức trái tim chuẩn với độ dày
+      float depth1 = sqrt(1.0f - s1 * s1) * 0.3f; // Độ dày
+      float depth2 = sqrt(1.0f - s2 * s2) * 0.3f;
+      
+      // Điểm 1: (t1, s1)
+      float x1 = 0.05f * 16.0f * pow(sin(t1), 3.0f);
+      float y1 = 0.05f * (13.0f * cos(t1) - 5.0f * cos(2.0f * t1) - 2.0f * cos(3.0f * t1) - cos(4.0f * t1));
+      float z1 = s1 * depth1;
+      
+      // Điểm 2: (t2, s1)
+      float x2 = 0.05f * 16.0f * pow(sin(t2), 3.0f);
+      float y2 = 0.05f * (13.0f * cos(t2) - 5.0f * cos(2.0f * t2) - 2.0f * cos(3.0f * t2) - cos(4.0f * t2));
+      float z2 = s1 * depth1;
+      
+      // Điểm 3: (t2, s2)
+      float x3 = 0.05f * 16.0f * pow(sin(t2), 3.0f);
+      float y3 = 0.05f * (13.0f * cos(t2) - 5.0f * cos(2.0f * t2) - 2.0f * cos(3.0f * t2) - cos(4.0f * t2));
+      float z3 = s2 * depth2;
+      
+      // Điểm 4: (t1, s2)
+      float x4 = 0.05f * 16.0f * pow(sin(t1), 3.0f);
+      float y4 = 0.05f * (13.0f * cos(t1) - 5.0f * cos(2.0f * t1) - 2.0f * cos(3.0f * t1) - cos(4.0f * t1));
+      float z4 = s2 * depth2;
+      
+      if (j < segments) {
+        // Triangle 1
+        vertices.push_back(x1); vertices.push_back(y1); vertices.push_back(z1);
+        vertices.push_back(x2); vertices.push_back(y2); vertices.push_back(z2);
+        vertices.push_back(x3); vertices.push_back(y3); vertices.push_back(z3);
+        
+        // Triangle 2
+        vertices.push_back(x1); vertices.push_back(y1); vertices.push_back(z1);
+        vertices.push_back(x3); vertices.push_back(y3); vertices.push_back(z3);
+        vertices.push_back(x4); vertices.push_back(y4); vertices.push_back(z4);
+        
+        // Normal cho Triangle 1
+        glm::vec3 v1(x2 - x1, y2 - y1, z2 - z1);
+        glm::vec3 v2(x3 - x1, y3 - y1, z3 - z1);
+        glm::vec3 n1 = glm::normalize(glm::cross(v1, v2));
+        
+        for (int k = 0; k < 3; ++k) {
+          normals.push_back(n1.x);
+          normals.push_back(n1.y);
+          normals.push_back(n1.z);
+        }
+        
+        // Normal cho Triangle 2
+        glm::vec3 v3(x3 - x1, y3 - y1, z3 - z1);
+        glm::vec3 v4(x4 - x1, y4 - y1, z4 - z1);
+        glm::vec3 n2 = glm::normalize(glm::cross(v3, v4));
+        
+        for (int k = 0; k < 3; ++k) {
+          normals.push_back(n2.x);
+          normals.push_back(n2.y);
+          normals.push_back(n2.z);
+        }
+      }
+    }
+  }
+  
+  return Loader::loadToVAO(vertices, 3, normals, 3);
 }
 
 RawModel* createCube() {

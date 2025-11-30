@@ -39,7 +39,7 @@ float shadowCalculation(vec4 lightSpaceFragPos) {
 }
 
 void main() {
-  vec3 fogColor = vec3(0.968, 0.851, 0.667);
+  vec3 fogColor = vec3(0.69, 0.88, 0.9); // Màu bầu trời xanh (powder blue)
   vec3 unitNormal = normalize(Normal);
   vec3 unitToCameraVector = normalize(ToCameraVector);
 

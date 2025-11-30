@@ -6,9 +6,9 @@
 #include <entities/Entity.h>
 #include <entities/gameObjects/Light.h>
 #include <entities/gameObjects/Sky.h>
-#include <entities/gameObjects/Airplane.h>
-#include <entities/gameObjects/ObstacleHolder.h>
-#include <entities/gameObjects/BatteryHolder.h>
+#include <entities/gameObjects/Bird.h>
+#include <entities/gameObjects/TriangleHolder.h>
+#include <entities/gameObjects/HeartHolder.h>
 #include <entities/gameObjects/ParticleHolder.h>
 #include <entities/gameObjects/Camera.h>
 // #include <entities/gameObjects/Tree.h>  // ❌ Đã xóa cây
@@ -84,10 +84,10 @@ void Game::run() {
 
       renderer.render();
 
-      ObstacleHolder::theOne().update();
-      BatteryHolder::theOne().update();
+      TriangleHolder::theOne().update();
+      HeartHolder::theOne().update();
       // Sky::theOne().update();  // ❌ XÓA ĐÁM MÂY
-      Airplane::theOne().update();
+      Bird::theOne().update();
       DisplayManager::updateDisplay();
 
       // update health
