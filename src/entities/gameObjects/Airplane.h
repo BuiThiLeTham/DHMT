@@ -14,36 +14,31 @@ private:
   std::vector<Entity*> components;
   float speed;
 
-  // plane
-  Entity cockpit;
-  Entity engine;
-  Entity tail;
-  Entity sideWing;
-  Entity windShield;
-  Entity propeller;
-  Entity blade1;
-  Entity blade2;
-  Entity wheelProtectionR;
-  Entity wheelProtectionL;
-  Entity tireR;
-  Entity tireL;
-  Entity wheelAxis;
-  Entity suspension;
-  Entity tireB;
-  Entity wheelAxisB;
-
-  // pilot
-  Entity body;
-  Entity face;
-  Entity hairSide;
-  Entity hairBack;
-  Entity hair[12];
+  // bird body parts
+  Entity birdBody;      // Thân chim
+  Entity birdChest;     // Ngực chim
+  Entity birdTail;      // Đuôi chim
+  Entity birdHead;      // Đầu chim
+  Entity birdBeak;      // Mỏ chim
+  Entity wingLeft;      // Cánh trái
+  Entity wingRight;     // Cánh phải
+  Entity legLeft;       // Chân trái
+  Entity legRight;      // Chân phải
+  Entity footLeft;      // Bàn chân trái
+  Entity footRight;     // Bàn chân phải
+  Entity eyeLeft;       // Mắt trái
+  Entity eyeRight;      // Mắt phải
+  
+  // feathers (lông vũ)
+  Entity tailFeathers[6];  // Lông đuôi
+  Entity feathers[12];     // Lông vũ trên đầu
 
 public:
   Airplane();
   ~Airplane();
 
-  void updateHair();
+  void updateFeathers();
+  void updateWings();
   void rotate(float dx, float dy, float dz, glm::vec3 center);
   void translate(float dx, float dy, float dz);
   void update();

@@ -7,11 +7,7 @@ uniform mat4 transformationMatrix;
 uniform float time;
 
 void main() {
-  // update wave position
-  float angle = wave.x;
-  float amplitude = wave.y;
-  float speed = wave.z;
-  float newX = position.x + cos(angle + time * speed) * amplitude;
-  float newY = position.y + sin(angle + time * speed) * amplitude;
-  gl_Position = transformationMatrix * vec4(newX, newY, position.z, 1.0);
+  // Mặt đất phẳng - không có sóng
+  // Tắt wave animation để tạo mặt đất
+  gl_Position = transformationMatrix * vec4(position.x, position.y, position.z, 1.0);
 }

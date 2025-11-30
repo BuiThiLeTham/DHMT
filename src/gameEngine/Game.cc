@@ -11,6 +11,7 @@
 #include <entities/gameObjects/BatteryHolder.h>
 #include <entities/gameObjects/ParticleHolder.h>
 #include <entities/gameObjects/Camera.h>
+#include <entities/gameObjects/Tree.h>
 #include <models/Geometry.h>
 #include <renderEngine/DisplayManager.h>
 #include <io/MouseManager.h>
@@ -45,6 +46,7 @@ Game::Game() {
 }
 
 Game::~Game() {
+  TreeManager::cleanup();
   DisplayManager::cleanDisplay();
   Geometry::cleanGeometry();
 }
@@ -54,6 +56,9 @@ void Game::init() {
   DisplayManager::createDisplay();
   Geometry::initGeometry();
   Light::theOne().setPosition(LIGHT::X, LIGHT::Y, LIGHT::Z);
+  
+  // Tạo rừng cây 🌳
+  TreeManager::init();
 }
 
 Game& Game::theOne() {
@@ -81,7 +86,7 @@ void Game::run() {
 
       ObstacleHolder::theOne().update();
       BatteryHolder::theOne().update();
-      Sky::theOne().update();
+      // Sky::theOne().update();  // ❌ XÓA ĐÁM MÂY
       Airplane::theOne().update();
       DisplayManager::updateDisplay();
 

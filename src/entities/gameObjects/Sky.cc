@@ -43,11 +43,10 @@ void Cloud::rotateEntity() {
   }
 }
 
-Sky::Sky(): cloudCount(20) {
-  float stepAngle = PI * 2 / cloudCount;
-  for (int i = 0; i < cloudCount; ++i) {
-    createCloud(stepAngle * (float)i);
-  }
+Sky::Sky(): cloudCount(0) {
+  // ❌❌❌ XÓA HOÀN TOÀN ĐÁM MÂY - KHÔNG TẠO GÌ CẢ ❌❌❌
+  std::cout << "☀️ Bầu trời quang đãng - KHÔNG CÓ ĐÁM MÂY!" << std::endl;
+  // KHÔNG CHẠY BẤT KỲ CODE NÀO Ở ĐÂY
 }
 
 Sky::~Sky() {
@@ -82,10 +81,11 @@ void Sky::createCloud(float angle) {
 }
 
 void Sky::update() {
-  for (auto& cloud: clouds) {
-    cloud->rotate(0.0f, 0.0f, GAME::SPEED, glm::vec3(0.0f, -SEA::RADIUS, 0.0f));
-    cloud->rotateEntity();
-  }
+  // ❌ KHÔNG UPDATE ĐÁM MÂY - ĐÃ XÓA HẾT
+  // for (auto& cloud: clouds) {
+  //   cloud->rotate(0.0f, 0.0f, GAME::SPEED, glm::vec3(0.0f, -SEA::RADIUS, 0.0f));
+  //   cloud->rotateEntity();
+  // }
 }
 
 Sky& Sky::theOne() {

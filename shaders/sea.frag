@@ -33,7 +33,10 @@ float shadowCalculation(vec4 lightSpaceFragPos) {
 }
 
 void main() {
-  vec3 seaColor = vec3(0.408, 0.765, 0.753);
+  // Đổi màu nước → màu đất
+  vec3 groundColor = vec3(0.4, 0.3, 0.2);  // Màu nâu đất
+  vec3 grassColor = vec3(0.3, 0.5, 0.2);   // Màu xanh cỏ
+  vec3 terrainColor = mix(groundColor, grassColor, 0.6);  // Pha trộn
   vec3 fogColor = vec3(0.968, 0.851, 0.667);
 
   // directional light
@@ -51,7 +54,7 @@ void main() {
   // shadow
   float visibility = 1.0;
   float shadow = visibility * shadowCalculation(LightSpaceFragPos);
-  vec3 fragColor = (ambient + (1 - shadow) * diffuse) * seaColor;
+  vec3 fragColor = (ambient + (1 - shadow) * diffuse) * terrainColor;
 
   // fog
   float dist = abs(ViewSpace.z);
