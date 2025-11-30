@@ -50,10 +50,8 @@ void main() {
   float diff = max(dot(Normal, lightDir), 0.0);
   vec3 diffuse = diff * lightColor;
 
-  // shadow
-  float visibility = 1.0;
-  float shadow = visibility * shadowCalculation(LightSpaceFragPos);
-  vec3 fragColor = (ambient + (1 - shadow) * diffuse) * terrainColor;
+  // Shadow disabled - no shadow calculation
+  vec3 fragColor = (ambient + diffuse) * terrainColor;
 
   // fog
   float dist = abs(ViewSpace.z);

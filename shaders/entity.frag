@@ -61,12 +61,8 @@ void main() {
   float specularFactor = pow(max(dot(reflectedLightDir, unitToCameraVector), 0.0), 64);
   vec3 specular = specularStrength * specularFactor * lightColor;
 
-  // shadow
-  float visibility = 1.0;
-  float shadow = 0.0;
-  if (receiveShadow == 1)
-    shadow = visibility * shadowCalculation(LightSpaceFragPos);
-  vec3 fragColor = (ambient + (1 - shadow) * (diffuse + specular)) * color;
+  // Shadow disabled - no shadow calculation
+  vec3 fragColor = (ambient + (diffuse + specular)) * color;
 
   // fog
   float dist = abs(ViewSpace.z);
