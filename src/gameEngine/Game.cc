@@ -76,8 +76,8 @@ void Game::run() {
       }
       
       if (!GAME::IS_GAME_OVER) {
-        // Update game time and distance
-        GAME::GAME_TIME += delta;
+        // Update game time and distance (using actual elapsed time)
+        GAME::GAME_TIME = DisplayManager::getTime(); // Use actual time
         GAME::AIRPLANE_DISTANCE += GAME::SPEED;
         GAME::MILES = GAME::AIRPLANE_DISTANCE / 100.0f; // Convert to miles
 

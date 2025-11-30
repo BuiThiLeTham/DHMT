@@ -14,7 +14,7 @@ int getPixel(int character, int px, int py) {
     // T
     if (character == 0) {
         if (py == 6) return 1;
-        if (px == 2 && py < 6) return 1;
+        if (px == 2) return 1;
         return 0;
     }
     // H
@@ -26,7 +26,7 @@ int getPixel(int character, int px, int py) {
     // E
     if (character == 2) {
         if (px == 0) return 1;
-        if (py == 6 || py == 3 || py == 0) return 1;
+        if (py == 0 || py == 3 || py == 6) return 1;
         return 0;
     }
     // N
@@ -40,77 +40,119 @@ int getPixel(int character, int px, int py) {
     // D
     if (character == 4) {
         if (px == 0) return 1;
-        if ((py == 0 || py == 6) && px < 4) return 1;
+        if (py == 0 || py == 6) return 1;
         if (px == 4 && py > 0 && py < 6) return 1;
         return 0;
     }
     
-    // Digits 0-9
+    // Digits 0-9 (character ID = 10-19)
+    // Standard 5x7 bitmap font
     int digit = character - 10;
     
-    // 0
+    // 0 - Rectangle with hollow center
     if (digit == 0) {
-        if ((px == 0 || px == 4) && py > 0 && py < 6) return 1;
-        if ((py == 0 || py == 6) && px > 0 && px < 4) return 1;
+        if ((px == 0 || px == 4) && (py >= 1 && py <= 5)) return 1;
+        if ((py == 0 || py == 6) && (px >= 1 && px <= 3)) return 1;
         return 0;
     }
-    // 1
+    
+    // 1 - Vertical line with base
     if (digit == 1) {
         if (px == 2) return 1;
-        if (py == 0 && px >= 1 && px <= 3) return 1;
+        if (py == 1 && px == 1) return 1;
+        if (py == 6 && (px >= 1 && px <= 3)) return 1;
         return 0;
     }
-    // 2
+    
+    // 2 - S shape
     if (digit == 2) {
-        if (py == 6 || py == 3 || py == 0) return 1;
-        if (px == 4 && py > 3) return 1;
-        if (px == 0 && py < 3) return 1;
+        if (py == 0 && (px >= 1 && px <= 4)) return 1;
+        if (py == 1 && px == 4) return 1;
+        if (py == 2 && px == 4) return 1;
+        if (py == 3 && (px >= 1 && px <= 3)) return 1;
+        if (py == 4 && px == 0) return 1;
+        if (py == 5 && px == 0) return 1;
+        if (py == 6 && (px >= 0 && px <= 4)) return 1;
         return 0;
     }
-    // 3
+    
+    // 3 - Two bumps on right
     if (digit == 3) {
-        if (py == 6 || py == 3 || py == 0) return 1;
-        if (px == 4 && py != 0 && py != 3 && py != 6) return 1;
+        if (py == 0 && (px >= 0 && px <= 4)) return 1;
+        if (py == 1 && px == 4) return 1;
+        if (py == 2 && px == 4) return 1;
+        if (py == 3 && (px >= 1 && px <= 4)) return 1;
+        if (py == 4 && px == 4) return 1;
+        if (py == 5 && px == 4) return 1;
+        if (py == 6 && (px >= 0 && px <= 4)) return 1;
         return 0;
     }
-    // 4
+    
+    // 4 - Right angle with vertical
     if (digit == 4) {
-        if (px == 0 && py >= 3) return 1;
+        if (px == 0 && (py >= 0 && py <= 3)) return 1;
+        if (py == 3 && (px >= 1 && px <= 4)) return 1;
         if (px == 4) return 1;
-        if (py == 3) return 1;
         return 0;
     }
-    // 5
+    
+    // 5 - Reverse S
     if (digit == 5) {
-        if (py == 6 || py == 3 || py == 0) return 1;
-        if (px == 0 && py > 3) return 1;
-        if (px == 4 && py < 3) return 1;
+        if (py == 0 && (px >= 0 && px <= 4)) return 1;
+        if (py == 1 && px == 0) return 1;
+        if (py == 2 && px == 0) return 1;
+        if (py == 3 && (px >= 0 && px <= 3)) return 1;
+        if (py == 4 && px == 4) return 1;
+        if (py == 5 && px == 4) return 1;
+        if (py == 6 && (px >= 0 && px <= 4)) return 1;
         return 0;
     }
-    // 6
+    
+    // 6 - Circle on bottom
     if (digit == 6) {
-        if (py == 6 || py == 3 || py == 0) return 1;
-        if (px == 0) return 1;
-        if (px == 4 && py < 3) return 1;
+        if (py == 0 && (px >= 1 && px <= 3)) return 1;
+        if (py == 1 && px == 0) return 1;
+        if (py == 2 && px == 0) return 1;
+        if (py == 3 && (px >= 0 && px <= 3)) return 1;
+        if (py == 4 && (px == 0 || px == 4)) return 1;
+        if (py == 5 && (px == 0 || px == 4)) return 1;
+        if (py == 6 && (px >= 1 && px <= 3)) return 1;
         return 0;
     }
-    // 7
+    
+    // 7 - Top line with diagonal
     if (digit == 7) {
-        if (py == 6) return 1;
-        if (px == 4) return 1;
+        if (py == 0 && (px >= 0 && px <= 4)) return 1;
+        if (py == 1 && px == 4) return 1;
+        if (py == 2 && px == 3) return 1;
+        if (py == 3 && px == 3) return 1;
+        if (py == 4 && px == 2) return 1;
+        if (py == 5 && px == 2) return 1;
+        if (py == 6 && px == 2) return 1;
         return 0;
     }
-    // 8
+    
+    // 8 - Two stacked circles
     if (digit == 8) {
-        if (py == 6 || py == 3 || py == 0) return 1;
-        if (px == 0 || px == 4) return 1;
+        if (py == 0 && (px >= 1 && px <= 3)) return 1;
+        if (py == 1 && (px == 0 || px == 4)) return 1;
+        if (py == 2 && (px == 0 || px == 4)) return 1;
+        if (py == 3 && (px >= 1 && px <= 3)) return 1;
+        if (py == 4 && (px == 0 || px == 4)) return 1;
+        if (py == 5 && (px == 0 || px == 4)) return 1;
+        if (py == 6 && (px >= 1 && px <= 3)) return 1;
         return 0;
     }
-    // 9
+    
+    // 9 - Circle on top
     if (digit == 9) {
-        if (py == 6 || py == 3 || py == 0) return 1;
-        if (px == 4) return 1;
-        if (px == 0 && py >= 3) return 1;
+        if (py == 0 && (px >= 1 && px <= 3)) return 1;
+        if (py == 1 && (px == 0 || px == 4)) return 1;
+        if (py == 2 && (px == 0 || px == 4)) return 1;
+        if (py == 3 && (px >= 1 && px <= 4)) return 1;
+        if (py == 4 && px == 4) return 1;
+        if (py == 5 && px == 4) return 1;
+        if (py == 6 && (px >= 1 && px <= 3)) return 1;
         return 0;
     }
     
@@ -121,38 +163,17 @@ void main() {
     float x = gl_FragCoord.x;
     float y = gl_FragCoord.y;
     
-    // Draw "THE END" when game is over
+    // Draw red square when game is over
     if (isGameOver == 1) {
         float centerX = width / 2.0;
         float centerY = height / 2.0;
-        float charSize = 15.0; // Size of each character
-        float spacing = 3.0;
-        float totalWidth = 7.0 * charSize + 6.0 * spacing; // 7 characters + 6 spaces
-        float startX = centerX - totalWidth / 2.0;
+        float squareSize = 200.0; // Large red square
         
-        // Check if we're in the text area
-        if (y >= centerY - 7.0 * charSize / 2.0 && y <= centerY + 7.0 * charSize / 2.0) {
-            float relY = y - (centerY - 7.0 * charSize / 2.0);
-            int py = 6 - int(relY / charSize);
-            
-            if (py >= 0 && py <= 6) {
-                // THE END = T(0) H(1) E(2) space N(3) E(2) N(3) D(4)
-                int chars[7] = int[7](0, 1, 2, -1, 2, 3, 4); // -1 for space
-                
-                for (int i = 0; i < 7; i++) {
-                    float charX = startX + float(i) * (charSize + spacing);
-                    if (x >= charX && x < charX + 5.0 * charSize) {
-                        float relX = x - charX;
-                        int px = int(relX / charSize);
-                        if (px >= 0 && px <= 4 && chars[i] >= 0) {
-                            if (getPixel(chars[i], px, py) == 1) {
-                                out_Color = vec4(1.0, 1.0, 1.0, 1.0); // White text
-                                return;
-                            }
-                        }
-                    }
-                }
-            }
+        // Draw filled red square in center
+        if (x >= centerX - squareSize/2.0 && x <= centerX + squareSize/2.0 &&
+            y >= centerY - squareSize/2.0 && y <= centerY + squareSize/2.0) {
+            out_Color = vec4(1.0, 0.0, 0.0, 0.9); // Bright red
+            return;
         }
         discard;
     }
@@ -174,15 +195,19 @@ void main() {
         }
     }
     
-    // Draw time display (top left)
-    float timeY = height - 4.0 * size;
-    float timeX = xOffset;
+    // Draw time display (CENTER TOP - large and visible)
+    float timeScale = 8.0; // Larger size for visibility
+    float timeY = height - 60.0; // Near top
     int seconds = int(gameTime);
     
-    // Draw time digits
-    if (y >= timeY && y <= timeY + 7.0 * 3.0 && x >= timeX && x <= timeX + 15.0 * 3.0) {
+    // Calculate center position for time
+    float timeWidth = 3.0 * (5.0 * timeScale + 5.0); // 3 digits + spacing
+    float timeX = (width - timeWidth) / 2.0; // Center horizontally
+    
+    // Draw time digits (large and centered)
+    if (y >= timeY && y <= timeY + 7.0 * timeScale) {
         float relY = y - timeY;
-        int py = 6 - int(relY / 3.0);
+        int py = 6 - int(relY / timeScale); // Invert for screen coordinates
         
         if (py >= 0 && py <= 6) {
             // Display seconds as 3 digits
@@ -191,14 +216,14 @@ void main() {
             int digit3 = seconds % 10;
             
             for (int i = 0; i < 3; i++) {
-                float digitX = timeX + float(i) * 18.0; // 5 pixels * 3 scale + 3 spacing
-                if (x >= digitX && x < digitX + 15.0) {
+                float digitX = timeX + float(i) * (5.0 * timeScale + 5.0);
+                if (x >= digitX && x < digitX + 5.0 * timeScale) {
                     float relX = x - digitX;
-                    int px = int(relX / 3.0);
+                    int px = int(relX / timeScale);
                     if (px >= 0 && px <= 4) {
                         int d = (i == 0) ? digit1 : (i == 1) ? digit2 : digit3;
                         if (getPixel(d + 10, px, py) == 1) {
-                            out_Color = vec4(1.0, 1.0, 1.0, 0.9);
+                            out_Color = vec4(1.0, 1.0, 0.0, 1.0); // Bright yellow
                             return;
                         }
                     }
@@ -207,14 +232,18 @@ void main() {
         }
     }
     
-    // Draw distance display (top right)
-    float distY = height - 4.0 * size;
-    float distX = width - xOffset - 45.0; // 3 digits * 15
+    // Draw distance display (CENTER BOTTOM - large and visible)
+    float distScale = 6.0; // Large size
+    float distY = 60.0; // Near bottom
     int miles = int(distance);
     
-    if (y >= distY && y <= distY + 7.0 * 3.0 && x >= distX && x <= width - xOffset) {
+    // Calculate center position for distance
+    float distWidth = 3.0 * (5.0 * distScale + 5.0); // 3 digits + spacing
+    float distX = (width - distWidth) / 2.0; // Center horizontally
+    
+    if (y >= distY && y <= distY + 7.0 * distScale) {
         float relY = y - distY;
-        int py = 6 - int(relY / 3.0);
+        int py = 6 - int(relY / distScale); // Invert for screen coordinates
         
         if (py >= 0 && py <= 6) {
             int digit1 = (miles / 100) % 10;
@@ -222,14 +251,14 @@ void main() {
             int digit3 = miles % 10;
             
             for (int i = 0; i < 3; i++) {
-                float digitX = distX + float(i) * 18.0;
-                if (x >= digitX && x < digitX + 15.0) {
+                float digitX = distX + float(i) * (5.0 * distScale + 5.0);
+                if (x >= digitX && x < digitX + 5.0 * distScale) {
                     float relX = x - digitX;
-                    int px = int(relX / 3.0);
+                    int px = int(relX / distScale);
                     if (px >= 0 && px <= 4) {
                         int d = (i == 0) ? digit1 : (i == 1) ? digit2 : digit3;
                         if (getPixel(d + 10, px, py) == 1) {
-                            out_Color = vec4(1.0, 1.0, 0.8, 0.9); // Yellow for distance
+                            out_Color = vec4(0.0, 1.0, 1.0, 1.0); // Cyan for distance
                             return;
                         }
                     }
