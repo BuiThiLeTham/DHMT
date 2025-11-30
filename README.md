@@ -11,8 +11,7 @@ The main purpose of this project is to practice OpenGL rendering techniques and 
 - [ ] Build on IOS and WebAssembly
 - [ ] Refactor code
 
-## Video
-[![alt text](https://github.com/Guo-Haowei/TheAviator/blob/master/screenshots/Screenshot.png)](https://youtu.be/3o_Xw1SkKuE)
+
 
 ## FEATURES
 ### Motion Blur
