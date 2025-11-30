@@ -31,9 +31,9 @@ void Collision::checkCollisionAgainstPlane() {
       if (entity->getType() && overlap(entity->getBody(), Bird::theOne().getBody().getBody())) {
         if (entity->getType() == OBSTACLE) {
           Bird::theOne().knockBack(entity->getPosition());
-          GAME::HEALTH = std::max(0.0f, GAME::HEALTH - 10.0f);
+          GAME::HEALTH = (std::max)(0.0f, GAME::HEALTH - 10.0f);
         } else {
-          GAME::HEALTH = std::min(100.0f, GAME::HEALTH + 1.0f);
+          GAME::HEALTH = (std::min)(100.0f, GAME::HEALTH + 1.0f);
         }
         entity->setLifespan(0);
       }

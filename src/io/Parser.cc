@@ -38,13 +38,13 @@ float SHADOW::FAR_PLANE;
 int SHADOW::WIDTH;
 int SHADOW::HEIGHT;
 
-float AIRPLANE::X;
-float AIRPLANE::Y;
-float AIRPLANE::Z;
-float AIRPLANE::MOVE_SENSITIVITY;
-float AIRPLANE::ROTATE_SENSITITY;
-float AIRPLANE::AMPWIDTH;
-float AIRPLANE::AMPHEIGHT;
+float BIRD::X;
+float BIRD::Y;
+float BIRD::Z;
+float BIRD::MOVE_SENSITIVITY;
+float BIRD::ROTATE_SENSITITY;
+float BIRD::AMPWIDTH;
+float BIRD::AMPHEIGHT;
 
 // helper
 void getNextFloat(ifstream& file, float* value) {
@@ -104,11 +104,11 @@ void Parser::parse() {
   getNextInt(configFile, &SHADOW::WIDTH);
   getNextInt(configFile, &SHADOW::HEIGHT);
 
-  getNextFloat(configFile, &AIRPLANE::X);
-  getNextFloat(configFile, &AIRPLANE::Y);
-  getNextFloat(configFile, &AIRPLANE::Z);
-  getNextFloat(configFile, &AIRPLANE::MOVE_SENSITIVITY);
-  getNextFloat(configFile, &AIRPLANE::ROTATE_SENSITITY);
-  getNextFloat(configFile, &AIRPLANE::AMPWIDTH);
-  getNextFloat(configFile, &AIRPLANE::AMPHEIGHT);
+  getNextFloat(configFile, &BIRD::X);
+  getNextFloat(configFile, &BIRD::Y);
+  getNextFloat(configFile, &BIRD::Z);
+  getNextFloat(configFile, &BIRD::MOVE_SENSITIVITY);
+  getNextFloat(configFile, &BIRD::ROTATE_SENSITITY);
+  getNextFloat(configFile, &BIRD::AMPWIDTH);
+  getNextFloat(configFile, &BIRD::AMPHEIGHT);
 }

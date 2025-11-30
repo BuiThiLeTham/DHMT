@@ -44,6 +44,9 @@ void UIShader::getAllUniformLocations() {
   location_health = getUniformLocation("health");
   location_width = getUniformLocation("width");
   location_height = getUniformLocation("height");
+  location_gameTime = getUniformLocation("gameTime");
+  location_distance = getUniformLocation("distance");
+  location_isGameOver = getUniformLocation("isGameOver");
 }
 
 void UIShader::render() {
@@ -54,6 +57,9 @@ void UIShader::render() {
   loadFloat(location_health, GAME::HEALTH);
   loadFloat(location_width, (float)ACTUAL_WIDTH);
   loadFloat(location_height, (float)ACTUAL_HEIGHT);
+  loadFloat(location_gameTime, GAME::GAME_TIME);
+  loadFloat(location_distance, GAME::MILES);
+  loadInt(location_isGameOver, GAME::IS_GAME_OVER ? 1 : 0);
   quad->bind();
   glDrawArrays(GL_TRIANGLES, 0, quad->getVertexCount());
   RawModel::unbind(1);

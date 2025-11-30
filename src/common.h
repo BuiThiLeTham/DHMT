@@ -26,6 +26,8 @@ namespace GAME {
   extern float AIRPLANE_DISTANCE;
   extern float MILES;
   extern float HEALTH;
+  extern float GAME_TIME;
+  extern bool IS_GAME_OVER;
 };
 
 namespace SEA {
@@ -60,7 +62,7 @@ namespace SHADOW {
   extern int HEIGHT;
 };
 
-namespace AIRPLANE {
+namespace BIRD {
   extern float X;
   extern float Y;
   extern float Z;

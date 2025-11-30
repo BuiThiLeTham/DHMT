@@ -32,6 +32,8 @@ using std::cout;
 float GAME::AIRPLANE_DISTANCE = 0.0f;
 float GAME::MILES = 0.0f;
 float GAME::HEALTH = 100.0f;
+float GAME::GAME_TIME = 0.0f;
+bool GAME::IS_GAME_OVER = false;
 float TIMER = 0;
 
 /* Helper function declaration */
@@ -68,32 +70,46 @@ Game& Game::theOne() {
 
 void Game::run() {
     if (shouldUpdate()) {
-      // temporary code for updating game angle
-      GAME::AIRPLANE_DISTANCE += GAME::SPEED;
+      // Check game over condition
+      if (GAME::HEALTH <= 0.0f && !GAME::IS_GAME_OVER) {
+        GAME::IS_GAME_OVER = true;
+      }
+      
+      if (!GAME::IS_GAME_OVER) {
+        // Update game time and distance
+        GAME::GAME_TIME += delta;
+        GAME::AIRPLANE_DISTANCE += GAME::SPEED;
+        GAME::MILES = GAME::AIRPLANE_DISTANCE / 100.0f; // Convert to miles
 
-      MouseManager::update();
-      Camera::primary().update();
-      Light::theOne().update();
-      DisplayManager::prepareDisplay();
+        MouseManager::update();
+        Camera::primary().update();
+        Light::theOne().update();
+        DisplayManager::prepareDisplay();
 
-      // update light intensity
-      AMBIENT_LIGHT_INTENSITY = glm::max(1.0f, AMBIENT_LIGHT_INTENSITY - 0.05f);
-      // check collision
-      Collision::checkCollisionAgainstPlane();
-      ParticleHolder::theOne().update();
+        // update light intensity
+        AMBIENT_LIGHT_INTENSITY = glm::max(1.0f, AMBIENT_LIGHT_INTENSITY - 0.05f);
+        // check collision
+        Collision::checkCollisionAgainstPlane();
+        ParticleHolder::theOne().update();
 
-      renderer.render();
+        renderer.render();
 
-      TriangleHolder::theOne().update();
-      HeartHolder::theOne().update();
-      // Sky::theOne().update();  // ❌ XÓA ĐÁM MÂY
-      Bird::theOne().update();
-      DisplayManager::updateDisplay();
+        TriangleHolder::theOne().update();
+        HeartHolder::theOne().update();
+        // Sky::theOne().update();  // ❌ XÓA ĐÁM MÂY
+        Bird::theOne().update();
+        DisplayManager::updateDisplay();
 
-      // update health
-      GAME::HEALTH -= 0.025f;
-      GAME::HEALTH = Maths::clamp(-0.1f, GAME::HEALTH, 100.0f);
-      ++updates;
+        // update health
+        GAME::HEALTH -= 0.025f;
+        GAME::HEALTH = Maths::clamp(-0.1f, GAME::HEALTH, 100.0f);
+        ++updates;
+      } else {
+        // Game over - just render current state
+        DisplayManager::prepareDisplay();
+        renderer.render();
+        DisplayManager::updateDisplay();
+      }
     }
 
     if (GAME::DISPLAY_FPS)

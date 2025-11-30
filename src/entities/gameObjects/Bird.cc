@@ -30,74 +30,62 @@ glm::vec3 red(1.0f, 0.3f, 0.2f);         // Đỏ - mỏ
 
 vector<Entity*> Bird::rigidBody;
 
-Bird::Bird() :
-  speed(0.0f),
+Bird::Bird() : speed(0.0f),
   axisX(glm::vec4(1.0f, 0.0f, 0.0f, 0.0f)),
   axisY(glm::vec4(0.0f, 1.0f, 0.0f, 0.0f)),
-  axisZ(glm::vec4(0.0f, 0.0f, 1.0f, 0.0f)),
-  // Thân chim (vàng, hình cầu lớn)
-  birdBody(Geometry::cockpit, glm::vec3(0.0f), yellow),
-  // Ngực chim (trắng, hơi lồi)
-  birdChest(Geometry::cube, glm::vec3(2.0f, -0.5f, 0.0f), white, glm::vec3(2.5f, 2.0f, 2.5f)),
-  // Đầu chim (vàng, nhỏ hơn thân)
-  birdHead(Geometry::cube, glm::vec3(4.0f, 1.0f, 0.0f), yellow, glm::vec3(2.0f, 2.0f, 2.0f)),
-  // Mỏ chim (đỏ, nhọn)
-  birdBeak(Geometry::cube, glm::vec3(5.5f, 1.0f, 0.0f), red, glm::vec3(1.5f, 0.5f, 0.8f)),
-  // Đuôi chim (cam, hình quạt)
-  birdTail(Geometry::cube, glm::vec3(-4.5f, 0.5f, 0.0f), orange, glm::vec3(2.0f, 0.3f, 3.0f)),
-  // Cánh trái (cam, dài và mỏng)
-  wingLeft(Geometry::cube, glm::vec3(0.0f, 0.5f, 5.0f), orange, glm::vec3(4.0f, 0.4f, 8.0f)),
-  // Cánh phải (cam, dài và mỏng)
-  wingRight(Geometry::cube, glm::vec3(0.0f, 0.5f, -5.0f), orange, glm::vec3(4.0f, 0.4f, 8.0f)),
-  // Chân trái (nâu, mảnh)
-  legLeft(Geometry::cube, glm::vec3(0.5f, -2.5f, 1.0f), brown, glm::vec3(0.3f, 2.0f, 0.3f)),
-  // Chân phải (nâu, mảnh)
-  legRight(Geometry::cube, glm::vec3(0.5f, -2.5f, -1.0f), brown, glm::vec3(0.3f, 2.0f, 0.3f)),
-  // Bàn chân trái (nâu, nhỏ)
-  footLeft(Geometry::cube, glm::vec3(1.0f, -3.5f, 1.0f), brown, glm::vec3(0.8f, 0.2f, 0.5f)),
-  // Bàn chân phải (nâu, nhỏ)
-  footRight(Geometry::cube, glm::vec3(1.0f, -3.5f, -1.0f), brown, glm::vec3(0.8f, 0.2f, 0.5f)),
-  // Mắt trái (đen, nhỏ)
-  eyeLeft(Geometry::cube, glm::vec3(4.8f, 1.8f, 0.8f), black, glm::vec3(0.3f, 0.3f, 0.3f)),
-  // Mắt phải (đen, nhỏ)
-  eyeRight(Geometry::cube, glm::vec3(4.8f, 1.8f, -0.8f), black, glm::vec3(0.3f, 0.3f, 0.3f))
+  axisZ(glm::vec4(0.0f, 0.0f, 1.0f, 0.0f))
 {
-  // Thêm các phần của con chim vào components
-  components.push_back(&birdBody);
-  components.push_back(&birdChest);
-  components.push_back(&birdHead);
-  components.push_back(&birdBeak);
-  components.push_back(&birdTail);
-  components.push_back(&wingLeft);
-  components.push_back(&wingRight);
-  components.push_back(&legLeft);
-  components.push_back(&legRight);
-  components.push_back(&footLeft);
-  components.push_back(&footRight);
-  components.push_back(&eyeLeft);
-  components.push_back(&eyeRight);
+  // Tạo các phần của con chim
+  birdBody = new Entity(Geometry::cockpit, glm::vec3(0.0f), yellow);
+  birdChest = new Entity(Geometry::cube, glm::vec3(2.0f, -0.5f, 0.0f), white, glm::vec3(2.5f, 2.0f, 2.5f));
+  birdHead = new Entity(Geometry::cube, glm::vec3(4.0f, 1.0f, 0.0f), yellow, glm::vec3(2.0f, 2.0f, 2.0f));
+  birdBeak = new Entity(Geometry::cube, glm::vec3(5.5f, 1.0f, 0.0f), red, glm::vec3(1.5f, 0.5f, 0.8f));
+  birdTail = new Entity(Geometry::cube, glm::vec3(-4.5f, 0.5f, 0.0f), orange, glm::vec3(2.0f, 0.3f, 3.0f));
+  wingLeft = new Entity(Geometry::cube, glm::vec3(0.0f, 0.5f, 5.0f), orange, glm::vec3(4.0f, 0.4f, 8.0f));
+  wingRight = new Entity(Geometry::cube, glm::vec3(0.0f, 0.5f, -5.0f), orange, glm::vec3(4.0f, 0.4f, 8.0f));
+  legLeft = new Entity(Geometry::cube, glm::vec3(0.5f, -2.5f, 1.0f), brown, glm::vec3(0.3f, 2.0f, 0.3f));
+  legRight = new Entity(Geometry::cube, glm::vec3(0.5f, -2.5f, -1.0f), brown, glm::vec3(0.3f, 2.0f, 0.3f));
+  footLeft = new Entity(Geometry::cube, glm::vec3(1.0f, -3.5f, 1.0f), brown, glm::vec3(0.8f, 0.2f, 0.5f));
+  footRight = new Entity(Geometry::cube, glm::vec3(1.0f, -3.5f, -1.0f), brown, glm::vec3(0.8f, 0.2f, 0.5f));
+  eyeLeft = new Entity(Geometry::cube, glm::vec3(4.8f, 1.8f, 0.8f), black, glm::vec3(0.3f, 0.3f, 0.3f));
+  eyeRight = new Entity(Geometry::cube, glm::vec3(4.8f, 1.8f, -0.8f), black, glm::vec3(0.3f, 0.3f, 0.3f));
+
+  // Thêm vào components
+  components.push_back(birdBody);
+  components.push_back(birdChest);
+  components.push_back(birdHead);
+  components.push_back(birdBeak);
+  components.push_back(birdTail);
+  components.push_back(wingLeft);
+  components.push_back(wingRight);
+  components.push_back(legLeft);
+  components.push_back(legRight);
+  components.push_back(footLeft);
+  components.push_back(footRight);
+  components.push_back(eyeLeft);
+  components.push_back(eyeRight);
 
   // Rigid body cho va chạm
-  rigidBody.push_back(&birdBody);
-  birdBody.setBody(new Sphere(6.0f));
-  rigidBody.push_back(&birdHead);
+  rigidBody.push_back(birdBody);
+  birdBody->setBody(new Sphere(6.0f));
+  rigidBody.push_back(birdHead);
   
   // Tạo lông đuôi (6 sợi)
   for (int i = 0; i < 6; ++i) {
     float offsetZ = -2.0f + (float)i * 0.8f;
-    tailFeathers[i] = Entity(Geometry::cube, glm::vec3(-6.0f, 0.3f, offsetZ), orange, glm::vec3(1.5f, 0.2f, 0.5f));
-    components.push_back(&(tailFeathers[i]));
+    tailFeathers[i] = new Entity(Geometry::cube, glm::vec3(-6.0f, 0.3f, offsetZ), orange, glm::vec3(1.5f, 0.2f, 0.5f));
+    components.push_back(tailFeathers[i]);
   }
   
-  // Tạo lông vũ trên đầu (12 sợi - giống tóc cũ)
+  // Tạo lông vũ trên đầu (12 sợi)
   for (int i = 0; i < 12; ++i) {
     int col = i % 3;
     int row = i / 3;
     float startX = 3.5f;
     float startY = 2.8f;
     float startZ = -0.6f;
-    feathers[i] = Entity(Geometry::cube, glm::vec3(startX + (float)row * 0.3f, startY, startZ + (float)col * 0.4f), yellow, glm::vec3(0.3f));
-    components.push_back(&(feathers[i]));
+    feathers[i] = new Entity(Geometry::cube, glm::vec3(startX + (float)row * 0.3f, startY, startZ + (float)col * 0.4f), yellow, glm::vec3(0.3f));
+    components.push_back(feathers[i]);
   }
 
   // Thêm tất cả entities vào scene
@@ -106,13 +94,35 @@ Bird::Bird() :
   }
 
   // Xoay chân hơi ra ngoài cho tự nhiên
-  legLeft.changeRotation(glm::vec3(0.0f, 0.0f, 1.0f), 0.2f);
-  legRight.changeRotation(glm::vec3(0.0f, 0.0f, 1.0f), -0.2f);
+  legLeft->changeRotation(glm::vec3(0.0f, 0.0f, 1.0f), 0.2f);
+  legRight->changeRotation(glm::vec3(0.0f, 0.0f, 1.0f), -0.2f);
   
-  translate(AIRPLANE::X, AIRPLANE::Y, AIRPLANE::Z);
+  translate(BIRD::X, BIRD::Y, BIRD::Z);
 }
 
-Bird::~Bird() {}
+Bird::~Bird() {
+  // Xóa tất cả entities
+  delete birdBody;
+  delete birdChest;
+  delete birdHead;
+  delete birdBeak;
+  delete birdTail;
+  delete wingLeft;
+  delete wingRight;
+  delete legLeft;
+  delete legRight;
+  delete footLeft;
+  delete footRight;
+  delete eyeLeft;
+  delete eyeRight;
+  
+  for (int i = 0; i < 6; ++i) {
+    delete tailFeathers[i];
+  }
+  for (int i = 0; i < 12; ++i) {
+    delete feathers[i];
+  }
+}
 
 void Bird::rotate(float dx, float dy, float dz, glm::vec3 center) {
   rotation += glm::vec3(dx, dy, dz);
@@ -139,10 +149,10 @@ void Bird::updateFeathers() {
   static float featherAngle = 0.0f;
   for (int i = 0; i < 12; ++i) {
     float height = 0.25f + glm::cos(featherAngle + i / 3) * 0.08f;
-    float dy = (height - feathers[i].getScale().y) / 2;
+    float dy = (height - feathers[i]->getScale().y) / 2;
     glm::vec3 translateVector = dy * glm::normalize(glm::vec3(axisY.x, axisY.y, axisY.z));
-    feathers[i].changePosition(translateVector.x, translateVector.y, translateVector.z);
-    feathers[i].setScale(0.3f, height, 0.3f);
+    feathers[i]->changePosition(translateVector.x, translateVector.y, translateVector.z);
+    feathers[i]->setScale(0.3f, height, 0.3f);
   }
   featherAngle += 0.16f;
 }
@@ -157,12 +167,12 @@ void Bird::updateWings() {
   // Vỗ cánh trái lên xuống
   glm::vec3 wingLeftAxis = glm::normalize(glm::vec3(axisX.x, axisX.y, axisX.z));
   static float prevWingFlapLeft = 0.0f;
-  wingLeft.changeRotation(wingLeftAxis, wingFlap - prevWingFlapLeft);
+  wingLeft->changeRotation(wingLeftAxis, wingFlap - prevWingFlapLeft);
   prevWingFlapLeft = wingFlap;
   
   // Vỗ cánh phải lên xuống (đối xứng)
   static float prevWingFlapRight = 0.0f;
-  wingRight.changeRotation(wingLeftAxis, -wingFlap - prevWingFlapRight);
+  wingRight->changeRotation(wingLeftAxis, -wingFlap - prevWingFlapRight);
   prevWingFlapRight = -wingFlap;
   
   // Lông đuôi cũng dao động nhẹ
@@ -170,7 +180,7 @@ void Bird::updateWings() {
     float tailWave = glm::sin(wingAngle + i * 0.3f) * 0.1f;
     static float prevTailWave[6] = {0, 0, 0, 0, 0, 0};
     glm::vec3 tailAxis = glm::normalize(glm::vec3(axisY.x, axisY.y, axisY.z));
-    tailFeathers[i].changeRotation(tailAxis, tailWave - prevTailWave[i]);
+    tailFeathers[i]->changeRotation(tailAxis, tailWave - prevTailWave[i]);
     prevTailWave[i] = tailWave;
   }
   
@@ -190,16 +200,16 @@ void Bird::update() {
       rotate(0.0f, 0.0f, -glm::radians(zRotation), position);
   } else {
     speed = Maths::clamp(MouseManager::getX(), -0.5f, 0.5f, PLANE_MIN_SPEED, PLANE_MAX_SPEED);
-    float targetX = Maths::clamp(MouseManager::getX(), -1.0f, 1.0f, -AIRPLANE::AMPWIDTH, -0.7f * AIRPLANE::AMPWIDTH);
-    float targetY = Maths::clamp(MouseManager::getY(), -0.75f, 0.75f, AIRPLANE::Y - AIRPLANE::AMPHEIGHT, AIRPLANE::Y + AIRPLANE::AMPHEIGHT);
+    float targetX = Maths::clamp(MouseManager::getX(), -1.0f, 1.0f, -BIRD::AMPWIDTH, -0.7f * BIRD::AMPWIDTH);
+    float targetY = Maths::clamp(MouseManager::getY(), -0.75f, 0.75f, BIRD::Y - BIRD::AMPHEIGHT, BIRD::Y + BIRD::AMPHEIGHT);
 
     COLLISION_DISPLACEMENT_X += COLLISION_SPEED_X;
     targetX += COLLISION_DISPLACEMENT_X;
 
     float deltaX = targetX - position.x;
     float deltaY = targetY - position.y;
-    translate(deltaX * AIRPLANE::MOVE_SENSITIVITY, deltaY * AIRPLANE::MOVE_SENSITIVITY, 0.0f);
-    float targetRotationZ = deltaY * AIRPLANE::ROTATE_SENSITITY;
+    translate(deltaX * BIRD::MOVE_SENSITIVITY, deltaY * BIRD::MOVE_SENSITIVITY, 0.0f);
+    float targetRotationZ = deltaY * BIRD::ROTATE_SENSITITY;
 
     rotate(0.0f, 0.0f, targetRotationZ - rotation.z, position);
     rotation.z = targetRotationZ;
@@ -227,7 +237,7 @@ void Bird::knockBack(glm::vec3 otherPosition) {
 }
 
 Entity& Bird::getBody() {
-  return birdBody;
+  return *birdBody;
 }
 
 Bird& Bird::theOne() {

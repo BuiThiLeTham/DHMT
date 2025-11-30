@@ -52,7 +52,7 @@ glm::mat4 Camera::getPVMatrix() {
 
 glm::mat4 Camera::getLightSpaceMatrix() {
   glm::vec3 lightPos(Light::theOne().getPosition());
-  glm::mat4 viewMatrix = glm::lookAt(lightPos, glm::vec3(AIRPLANE::X, AIRPLANE::Y, AIRPLANE::Z), glm::vec3(0.0f, 1.0f, 0.0f));
+  glm::mat4 viewMatrix = glm::lookAt(lightPos, glm::vec3(BIRD::X, BIRD::Y, BIRD::Z), glm::vec3(0.0f, 1.0f, 0.0f));
   glm::mat4 projectionMatrix = glm::perspective(glm::radians(getFov()), (float) ACTUAL_WIDTH / (float) ACTUAL_HEIGHT, SHADOW::NEAR_PLANE, SHADOW::FAR_PLANE);
   return projectionMatrix * viewMatrix;
 }
