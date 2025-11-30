@@ -75,6 +75,10 @@ bool DisplayManager::shouldCloseDisplay() {
   return glfwWindowShouldClose(window);
 }
 
+void DisplayManager::closeDisplay() {
+  glfwSetWindowShouldClose(window, GLFW_TRUE);
+}
+
 long double DisplayManager::getTime() {
   return glfwGetTime();
 }

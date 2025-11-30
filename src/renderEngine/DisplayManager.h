@@ -13,6 +13,7 @@ public:
   static void updateDisplay();
   static void cleanDisplay();
   static bool shouldCloseDisplay();
+  static void closeDisplay();
 
   static long double getTime();
   static void getCursorPos(double* x, double* y);

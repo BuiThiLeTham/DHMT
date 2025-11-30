@@ -1,4 +1,4 @@
-// Airplane.h
+// Bird.h - Con chim 🐦
 #pragma once
 #include <models/Geometry.h>
 #include <entities/Entity.h>
@@ -6,7 +6,7 @@
 
 class Entity;
 
-class Airplane {
+class Bird {
 private:
   glm::vec3 position;
   glm::vec3 rotation;
@@ -34,8 +34,8 @@ private:
   Entity feathers[12];     // Lông vũ trên đầu
 
 public:
-  Airplane();
-  ~Airplane();
+  Bird();
+  ~Bird();
 
   void updateFeathers();
   void updateWings();
@@ -45,6 +45,7 @@ public:
   Entity& getBody();
   void knockBack(glm::vec3 otherPosition);
 
-  static Airplane& theOne();
+  static Bird& theOne();
   static std::vector<Entity*> rigidBody;
 };
+

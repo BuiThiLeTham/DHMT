@@ -8,6 +8,8 @@ private:
 
   double currentTime, lastTime, previousSecond, delta;
   int updates = 0;
+  bool isGameOver = false;  // Cờ kết thúc game
+  double gameOverTime = 0;  // Thời gian bắt đầu game over
 public:
   Game();
   ~Game();

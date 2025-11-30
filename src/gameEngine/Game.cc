@@ -6,7 +6,7 @@
 #include <entities/Entity.h>
 #include <entities/gameObjects/Light.h>
 #include <entities/gameObjects/Sky.h>
-#include <entities/gameObjects/Airplane.h>
+#include <entities/gameObjects/Bird.h>
 #include <entities/gameObjects/ObstacleHolder.h>
 #include <entities/gameObjects/BatteryHolder.h>
 #include <entities/gameObjects/ParticleHolder.h>
@@ -87,12 +87,30 @@ void Game::run() {
       ObstacleHolder::theOne().update();
       BatteryHolder::theOne().update();
       // Sky::theOne().update();  // ❌ XÓA ĐÁM MÂY
-      Airplane::theOne().update();
+      Bird::theOne().update();  // 🐦 Con chim
       DisplayManager::updateDisplay();
 
       // update health
       GAME::HEALTH -= 0.025f;
       GAME::HEALTH = Maths::clamp(-0.1f, GAME::HEALTH, 100.0f);
+      
+      // ⚠️ KIỂM TRA HẾT MÁU → GAME OVER
+      if (GAME::HEALTH <= 0.0f && !isGameOver) {
+        isGameOver = true;
+        gameOverTime = DisplayManager::getTime();
+        std::cout << "\n";
+        std::cout << "=================================\n";
+        std::cout << "💀 GAME OVER - HẾT MÁU!\n";
+        std::cout << "=================================\n";
+        std::cout << "Quãng đường: " << GAME::AIRPLANE_DISTANCE << "\n";
+        std::cout << "Game sẽ kết thúc sau 3 giây...\n";
+      }
+      
+      // Chờ 3 giây sau khi game over rồi thoát
+      if (isGameOver && (DisplayManager::getTime() - gameOverTime > 3.0)) {
+        DisplayManager::closeDisplay();
+      }
+      
       ++updates;
     }
 
