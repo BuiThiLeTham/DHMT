@@ -1,51 +1,39 @@
 # ĐỒ HỌA MÁY TÍNH - BIRD FLIGHT GAME
 ## OpenGL 3D Graphics Algorithms Implementation
 
-Dự án game 3D bay chim (Bird Flight Game) được phát triển bằng OpenGL 3.3+, minh họa đầy đủ các thuật toán và kỹ thuật đồ họa máy tính cơ bản và nâng cao.
-
-### 🎮 Mô tả Game
-- **Nhân vật chính**: Con chim với cánh vỗ động (flapping wings animation)
-- **Vật phẩm thu thập**: Trái tim màu xanh (green hearts) - hồi 1 HP
-- **Vật cản**: Tam giác màu đỏ (red triangles) - gây 10 damage
-- **Môi trường**: Bầu trời xanh (sky blue gradient), mặt đất địa hình
-- **Điều khiển**: Chuột để bay lên/xuống, tránh chướng ngại vật
+Dự án game 3D bay chim được phát triển bằng OpenGL 3.3+, minh họa đầy đủ các thuật toán và kỹ thuật đồ họa máy tính từ cơ bản đến nâng cao.
 
 ---
 
-## 📋 CÁC THUẬT TOÁN ĐỒ HỌA ĐƯỢC CÀI ĐẶT
+## 🎮 MÔ TẢ GAME
 
-### 1️⃣ **Xén hình (Clipping)** - 6/10
-### 2️⃣ **Tô màu (Queue-based Flood Fill)** - 6/10  
-### 3️⃣ **Biến đổi 2D (2D Transformations)** - 13/10
-### 4️⃣ **Kết hợp các phép biến đổi 2D** - 13/10
-### 5️⃣ **Biểu diễn đối tượng 3D (3D Object Representation)** - 20/10
-### 6️⃣ **Quan sát đối tượng 3D (3D Viewing)** - 27/10
-### 7️⃣ **Vẽ đường/Mặt cong (Curve Drawing)** - 10/11
-### 8️⃣ **Khử khuất (Hidden Surface Removal)** - 17/11
-### 9️⃣ **Tô bóng Gouraud (Gouraud Shading)** - 24/11
+### Gameplay
+- **Nhân vật**: Con chim với cánh vỗ động (flapping animation)
+- **Mục tiêu**: Thu thập trái tim xanh (+1 HP), tránh tam giác đỏ (-10 HP)
+- **Điều khiển**: Di chuyển chuột để bay lên/xuống
+- **Môi trường**: Bầu trời xanh gradient, địa hình mặt đất
+
+### Đặc điểm kỹ thuật
+- **Engine**: OpenGL 3.3 Core Profile
+- **Shading Language**: GLSL 330
+- **Libraries**: GLFW3 (window), GLAD (OpenGL loader), GLM (math)
+- **Build System**: CMake 3.10+
 
 ---
 
-## 🚀 HƯỚNG DẪN COMPILE VÀ CHẠY
+## 📚 CÁC THUẬT TOÁN ĐỒ HỌA ĐƯỢC CÀI ĐẶT
 
-### Yêu cầu
-- CMake 3.10+
-- C++ Compiler (GCC/Clang/MSVC)
-- OpenGL 3.3+
-- GLFW3, GLAD, GLM (đã có trong thư mục external/)
-
-### Compile trên Windows (MSYS2)
-
-```bash
-cd /d/tool/c++/dhmt/DHMT
-mkdir build
-cd build
-cmake -G "MSYS Makefiles" ..
-make -j4
-./TheAviator.exe
-```
-
-### Compile trên Linux/macOS
+| # | Thuật toán | Ngày | Độ phức tạp | Mục đích |
+|---|------------|------|-------------|----------|
+| 1 | Xén hình (Clipping) | 6/10 | O(n) | Loại bỏ vật thể ngoài view frustum |
+| 2 | Tô màu (Flood Fill) | 6/10 | O(n×m) | Tô màu bề mặt 3D |
+| 3 | Biến đổi 2D | 13/10 | O(1) | Translation, Rotation, Scaling |
+| 4 | Kết hợp biến đổi 2D | 13/10 | O(1) | Matrix multiplication (MVP) |
+| 5 | Biểu diễn 3D | 20/10 | O(n) | Parametric surfaces, polygon mesh |
+| 6 | Quan sát 3D | 27/10 | O(1) | View & Projection matrices |
+| 7 | Vẽ đường/mặt cong | 10/11 | O(n) | Parametric curves, tessellation |
+| 8 | Khử khuất | 17/11 | O(n×m) | Z-buffer, back-face culling |
+| 9 | Tô bóng Phong | 24/11 | O(p) | Per-pixel lighting |
 
 ---
 
@@ -88,66 +76,1604 @@ make -j4
 ```
 
 ### Controls (Điều khiển)
-- **Mouse**: Di chuyển chuột để điều khiển chim bay lên/xuống
+- **Mouse Movement**: Di chuyển chim lên/xuống
 - **ESC**: Thoát game
-- **Space**: Pause/Resume
 
 ---
 
-## 📊 BẢNG TỔNG KẾT THUẬT TOÁN
-
-| # | Thuật toán | Ngày | File cài đặt | Độ phức tạp |
-|---|------------|------|--------------|-------------|
-| 1 | Xén hình (Clipping) | 6/10 | Camera.cc, entity.vert | O(1) per vertex |
-| 2 | Tô màu (Flood Fill) | 6/10 | entity.frag, Texture.cc | O(n) pixels |
-| 3 | Biến đổi 2D | 13/10 | Object3D.cc, ui.vert | O(1) per vertex |
-| 4 | Kết hợp biến đổi 2D | 13/10 | Object3D.cc | O(1) matrix mult |
-| 5 | Biểu diễn 3D | 20/10 | Geometry.cc, Loader.cc | O(n) vertices |
-| 6 | Quan sát 3D | 27/10 | Camera.cc, entity.vert | O(1) per vertex |
-| 7 | Vẽ đường/mặt cong | 10/11 | Geometry.cc (heart, sphere) | O(n) tessellation |
-| 8 | Khử khuất | 17/11 | DisplayManager.cc (Z-buffer) | O(n×m) pixels |
-| 9 | Tô bóng Gouraud/Phong | 24/11 | entity.frag | O(1) per pixel |
+## 📖 CHI TIẾT CÁC THUẬT TOÁN ĐỒ HỌA
 
 ---
 
-## 📖 TÀI LIỆU THAM KHẢO
+## 1️⃣ XÉN HÌNH (CLIPPING) - 6/10
 
-1. **Computer Graphics: Principles and Practice** - Foley, van Dam, Feiner, Hughes
-2. **OpenGL Programming Guide (Red Book)** - 9th Edition
-3. **Real-Time Rendering** - Tomas Akenine-Möller, Eric Haines
-4. **Learn OpenGL**: https://learnopengl.com/
-5. **GLM Documentation**: https://glm.g-truc.net/
-6. **GLFW Documentation**: https://www.glfw.org/documentation.html
+### 🎓 Lý thuyết
 
----
+**Xén hình** là quá trình loại bỏ các phần hình học nằm ngoài vùng hiển thị (view volume/frustum) để tối ưu hiệu năng rendering.
 
-## 👥 THÔNG TIN DỰ ÁN
+#### **Cohen-Sutherland Line Clipping Algorithm**
 
-- **Môn học**: Đồ Họa Máy Tính (Computer Graphics)
-- **Ngôn ngữ**: C++ với OpenGL 3.3+
-- **Thư viện**: GLFW3, GLAD, GLM
-- **Repository**: https://github.com/BuiThiLeTham/DHMT
-- **License**: Educational use only
+Thuật toán xén đoạn thẳng 2D sử dụng mã hóa vùng:
 
----
+```
+Bước 1: Chia không gian thành 9 vùng bằng 4 bit:
+  - Bit 0: TOP (y > y_max)
+  - Bit 1: BOTTOM (y < y_min)
+  - Bit 2: RIGHT (x > x_max)
+  - Bit 3: LEFT (x < x_min)
 
-## 🐛 TROUBLESHOOTING
+Bước 2: Tính mã cho 2 điểm đầu/cuối đoạn thẳng
 
-### Lỗi compile: "cannot find -lglfw3"
-```bash
-# Cài đặt GLFW3
-sudo apt-get install libglfw3-dev  # Ubuntu/Debian
-brew install glfw                   # macOS
+Bước 3: Kiểm tra:
+  - Nếu code1 | code2 == 0 → Hoàn toàn trong → Giữ nguyên
+  - Nếu code1 & code2 != 0 → Hoàn toàn ngoài → Loại bỏ
+  - Ngược lại → Tính giao điểm với biên → Xén
+
+Bước 4: Lặp lại cho đến khi hoàn toàn trong hoặc ngoài
 ```
 
-### Lỗi: "OpenGL version too old"
-- Kiểm tra driver card đồ họa
-- Update driver lên phiên bản mới nhất
-- Yêu cầu OpenGL 3.3+
+**Độ phức tạp**: O(1) cho mỗi đoạn thẳng
 
-### Lỗi: "glad.c not found"
-- Kiểm tra thư mục `external/glad/src/glad.c`
-- Chạy lại `cmake ..`
+#### **Sutherland-Hodgman Polygon Clipping**
+
+Thuật toán xén đa giác bằng cách xén tuần tự theo từng cạnh của view window:
+
+```
+for each edge of clipping window:
+    newPolygon = empty
+    for each edge of polygon:
+        p1, p2 = edge endpoints
+        
+        if p1 inside && p2 inside:
+            add p2 to newPolygon
+        elif p1 inside && p2 outside:
+            add intersection to newPolygon
+        elif p1 outside && p2 inside:
+            add intersection and p2 to newPolygon
+        elif p1 outside && p2 outside:
+            do nothing
+    
+    polygon = newPolygon
+```
+
+**Độ phức tạp**: O(n) với n là số đỉnh
+
+#### **3D View Frustum Culling**
+
+Trong 3D graphics, view frustum là hình chóp cụt được định nghĩa bởi 6 mặt phẳng:
+- **Near plane**: Mặt phẳng gần
+- **Far plane**: Mặt phẳng xa
+- **Left, Right, Top, Bottom**: 4 mặt phẳng bên
+
+```cpp
+// Frustum culling test cho sphere
+bool isInFrustum(vec3 center, float radius) {
+    for (int i = 0; i < 6; i++) {
+        float distance = dot(planes[i].normal, center) + planes[i].d;
+        if (distance < -radius)
+            return false; // Outside frustum
+    }
+    return true; // Inside or intersecting
+}
+```
+
+### 💻 Cài đặt trong dự án
+
+#### **File: `src/entities/gameObjects/Camera.cc`** (dòng 41-47)
+
+```cpp
+glm::mat4 Camera::getProjectionMatrix() {
+    return glm::perspective(
+        glm::radians(getFov()),                    // FOV = 60°
+        (float)ACTUAL_WIDTH / (float)ACTUAL_HEIGHT,
+        NEAR_PLANE,   // 1.0f - Xén vật thể quá gần
+        FAR_PLANE     // 1000.0f - Xén vật thể quá xa
+    );
+}
+```
+
+**Giải thích**:
+- `NEAR_PLANE`: Tất cả vật thể có z < 1.0 bị xén (quá gần camera)
+- `FAR_PLANE`: Tất cả vật thể có z > 1000.0 bị xén (quá xa camera)
+- OpenGL tự động xén các vertex ngoài frustum
+
+#### **File: `shaders/entity.vert`** (dòng 20-25)
+
+```glsl
+void main() {
+    vec4 worldPos = modelMatrix * vec4(position, 1.0);
+    vec4 viewPos = viewMatrix * worldPos;
+    gl_Position = projectionMatrix * viewPos;
+    
+    // OpenGL tự động xén các đỉnh có:
+    // gl_Position.x/w ngoài [-1, 1]
+    // gl_Position.y/w ngoài [-1, 1]
+    // gl_Position.z/w ngoài [-1, 1] (NDC - Normalized Device Coordinates)
+}
+```
+
+#### **File: `src/entities/gameObjects/HeartHolder.cc`** (dòng 65-72)
+
+```cpp
+void HeartHolder::update() {
+    // Object culling - loại bỏ vật thể bay ra khỏi màn hình
+    for (auto it = hearts.begin(); it != hearts.end();) {
+        if ((*it)->getZ() > Camera::theOne()->getZ() + 50) {
+            delete *it;
+            it = hearts.erase(it);  // Xén vật thể ngoài tầm nhìn
+        } else {
+            ++it;
+        }
+    }
+}
+```
+
+**Giải thích**: Frustum culling cấp cao - loại bỏ toàn bộ object thay vì chỉ xén polygon
+
+### 🎯 Ứng dụng
+- ✅ Giảm số lượng polygon cần render (tăng FPS)
+- ✅ Tránh render vật thể không nhìn thấy
+- ✅ Tối ưu bandwidth GPU
+
+---
+
+## 2️⃣ TÔ MÀU (FLOOD FILL) - 6/10
+
+### 🎓 Lý thuyết
+
+**Flood Fill** là thuật toán tô màu vùng kín, thường dùng trong paint programs và texture filling.
+
+#### **Recursive Flood Fill (4-connected)**
+
+```cpp
+void floodFill(int x, int y, Color fillColor, Color boundaryColor) {
+    Color currentColor = getPixel(x, y);
+    
+    // Base cases
+    if (currentColor == boundaryColor) return;
+    if (currentColor == fillColor) return;
+    
+    // Fill current pixel
+    setPixel(x, y, fillColor);
+    
+    // Recursive fill 4 neighbors
+    floodFill(x+1, y, fillColor, boundaryColor);  // Right
+    floodFill(x-1, y, fillColor, boundaryColor);  // Left
+    floodFill(x, y+1, fillColor, boundaryColor);  // Up
+    floodFill(x, y-1, fillColor, boundaryColor);  // Down
+}
+```
+
+**Nhược điểm**: Stack overflow với vùng lớn
+
+#### **Queue-based Flood Fill (Iterative)**
+
+```cpp
+void floodFillIterative(int x, int y, Color fillColor) {
+    Queue<Point> queue;
+    queue.push({x, y});
+    
+    while (!queue.empty()) {
+        Point p = queue.pop();
+        
+        if (getPixel(p.x, p.y) != fillColor) {
+            setPixel(p.x, p.y, fillColor);
+            
+            // Add 4 neighbors to queue
+            queue.push({p.x+1, p.y});
+            queue.push({p.x-1, p.y});
+            queue.push({p.x, p.y+1});
+            queue.push({p.x, p.y-1});
+        }
+    }
+}
+```
+
+**Độ phức tạp**: O(n×m) với n, m là kích thước vùng
+
+#### **Scanline Flood Fill (Tối ưu nhất)**
+
+```cpp
+void scanlineFill(int x, int y, Color fillColor) {
+    Stack<Span> stack;
+    stack.push({x, x, y, 1});  // {x1, x2, y, direction}
+    
+    while (!stack.empty()) {
+        Span span = stack.pop();
+        
+        // Tô màu scanline ngang
+        for (int i = span.x1; i <= span.x2; i++) {
+            setPixel(i, span.y, fillColor);
+        }
+        
+        // Tìm span ở dòng trên/dưới
+        // ... (phức tạp hơn nhưng hiệu quả)
+    }
+}
+```
+
+**Ưu điểm**: Giảm số lần push/pop, tối ưu cache locality
+
+### 💻 Cài đặt trong dự án
+
+#### **File: `src/textures/Texture.cc`** (dòng 35-45)
+
+```cpp
+void Texture::fillColor(GLubyte r, GLubyte g, GLubyte b) {
+    // Flood fill toàn bộ texture buffer
+    for (int i = 0; i < width * height * 4; i += 4) {
+        pixels[i]   = r;    // Red channel
+        pixels[i+1] = g;    // Green channel
+        pixels[i+2] = b;    // Blue channel
+        pixels[i+3] = 255;  // Alpha channel
+    }
+    // Upload to GPU
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 
+                 0, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
+}
+```
+
+#### **File: `shaders/entity.frag`** (dòng 65-75) - GPU Flood Fill
+
+```glsl
+void main() {
+    // Phong lighting calculation
+    vec3 ambient = ambientStrength * lightColor;
+    vec3 diffuse = diff * lightColor;
+    vec3 specular = specularStrength * specularFactor * lightColor;
+    
+    // Flood fill fragment với màu tính toán
+    vec3 fragColor = (ambient + diffuse + specular) * color;
+    
+    // Fog blending
+    vec3 finalColor = mix(fogColor, fragColor, fogFactor);
+    colorTexture = vec4(finalColor, 1.0);
+}
+```
+
+**Giải thích**: 
+- GPU thực hiện "flood fill" song song cho hàng triệu fragments
+- Mỗi fragment shader = 1 pixel được tô màu
+- Hardware rasterization = scanline flood fill tối ưu
+
+#### **Rasterization Pipeline**
+
+```
+Vertex Shader → Triangle Assembly → Rasterization → Fragment Shader
+                                         ↓
+                                   Flood Fill từng pixel
+                                   trong tam giác
+```
+
+### 🎯 Ứng dụng
+- ✅ Tô màu bề mặt 3D models
+- ✅ Texture generation
+- ✅ GPU rasterization (hardware acceleration)
+- ✅ Paint tools trong game editors
+
+---
+
+## 3️⃣ BIẾN ĐỔI 2D (2D TRANSFORMATIONS) - 13/10
+
+### 🎓 Lý thuyết
+
+Các phép biến đổi 2D cơ bản sử dụng **ma trận đồng nhất (homogeneous coordinates)** 3×3:
+
+#### **Translation (Tịnh tiến)**
+
+```
+T(tx, ty) = | 1  0  tx |
+            | 0  1  ty |
+            | 0  0  1  |
+
+P' = T × P
+| x' |   | 1  0  tx |   | x |   | x + tx |
+| y' | = | 0  1  ty | × | y | = | y + ty |
+| 1  |   | 0  0  1  |   | 1 |   |   1    |
+```
+
+#### **Rotation (Quay quanh gốc tọa độ)**
+
+```
+R(θ) = | cos(θ)  -sin(θ)  0 |
+       | sin(θ)   cos(θ)  0 |
+       |   0        0     1 |
+
+// Quay ngược chiều kim đồng hồ
+x' = x×cos(θ) - y×sin(θ)
+y' = x×sin(θ) + y×cos(θ)
+```
+
+#### **Scaling (Co giãn)**
+
+```
+S(sx, sy) = | sx  0   0 |
+            | 0   sy  0 |
+            | 0   0   1 |
+
+x' = x × sx
+y' = y × sy
+
+// Trường hợp đặc biệt:
+// sx = sy: Uniform scaling (co/giãn đều)
+// sx ≠ sy: Non-uniform scaling
+// sx < 0 hoặc sy < 0: Reflection (đối xứng)
+```
+
+#### **Shearing (Biến dạng)**
+
+```
+// Shear theo X (dọc theo trục X)
+Shx(sh) = | 1   sh  0 |
+          | 0   1   0 |
+          | 0   0   1 |
+
+x' = x + y×sh
+y' = y
+
+// Shear theo Y
+Shy(sh) = | 1   0   0 |
+          | sh  1   0 |
+          | 0   0   1 |
+
+x' = x
+y' = y + x×sh
+```
+
+### 💻 Cài đặt trong dự án
+
+#### **File: `shaders/ui.vert`** - 2D UI Transformation
+
+```glsl
+#version 330 core
+layout(location = 0) in vec2 position;
+
+uniform vec2 offset;     // Translation
+uniform vec2 scale;      // Scaling
+uniform float rotation;  // Rotation angle
+
+void main() {
+    vec2 pos = position;
+    
+    // 1. Scaling
+    pos *= scale;
+    
+    // 2. Rotation (2D rotation matrix)
+    float c = cos(rotation);
+    float s = sin(rotation);
+    vec2 rotated = vec2(
+        pos.x * c - pos.y * s,
+        pos.x * s + pos.y * c
+    );
+    
+    // 3. Translation
+    rotated += offset;
+    
+    gl_Position = vec4(rotated, 0.0, 1.0);
+}
+```
+
+#### **File: `src/entities/gameObjects/Bird.cc`** (dòng 180-195) - Wing Rotation
+
+```cpp
+void Bird::updateWings() {
+    float time = glfwGetTime();
+    float wingSpeed = 5.0f;
+    float wingAmplitude = glm::radians(30.0f); // ±30 degrees
+    
+    // Rotation 2D cho cánh (quay quanh trục Z)
+    float angle = sin(time * wingSpeed) * wingAmplitude;
+    
+    // Left wing: rotation matrix R(+angle)
+    leftWing->setRotation(0, 0, angle);
+    
+    // Right wing: rotation matrix R(-angle) - đối xứng
+    rightWing->setRotation(0, 0, -angle);
+}
+```
+
+**Giải thích**:
+- Sine wave tạo chuyển động vỗ cánh mượt mà
+- `angle ∈ [-30°, +30°]` giới hạn góc vỗ
+- 2 cánh đối xứng qua mặt phẳng giữa
+
+#### **File: `src/models/Geometry.cc`** (dòng 45-65) - UV Texture Mapping
+
+```cpp
+RawModel Geometry::createSphere(float radius, int slices, int stacks) {
+    std::vector<float> vertices, normals, texCoords;
+    
+    for (int i = 0; i <= stacks; ++i) {
+        for (int j = 0; j <= slices; ++j) {
+            // 2D Transformation: Scaling + Translation
+            float u = (float)j / slices;        // Scale [0, slices] → [0, 1]
+            float v = (float)i / stacks;        // Scale [0, stacks] → [0, 1]
+            
+            texCoords.push_back(u);
+            texCoords.push_back(v);
+            // ...
+        }
+    }
+}
+```
+
+### 🎯 Ứng dụng
+- ✅ Cánh chim vỗ (rotation animation)
+- ✅ UI element positioning (translation + scaling)
+- ✅ Texture coordinate mapping
+- ✅ Particle system transformations
+
+---
+
+## 4️⃣ KẾT HỢP CÁC PHÉP BIẾN ĐỔI 2D - 13/10
+
+### 🎓 Lý thuyết
+
+Kết hợp nhiều phép biến đổi bằng **nhân ma trận**. Thứ tự nhân **QUAN TRỌNG** vì ma trận không giao hoán (A×B ≠ B×A).
+
+#### **Composite Transformation**
+
+```
+M_combined = M_n × M_(n-1) × ... × M_2 × M_1
+
+// Áp dụng từ phải sang trái:
+P' = M_combined × P = M_n × (M_(n-1) × (... × (M_1 × P)))
+```
+
+#### **Thứ tự chuẩn: SRT (Scale → Rotate → Translate)**
+
+```
+M = T × R × S
+
+1. Scale trước (co/giãn tại gốc tọa độ)
+2. Rotate tiếp (quay tại gốc tọa độ)
+3. Translate cuối (di chuyển đến vị trí cuối cùng)
+```
+
+**Ví dụ**: Quay hình vuông quanh tâm của nó
+
+```
+Bước 1: Translate về gốc tọa độ      T(-cx, -cy)
+Bước 2: Rotate quanh gốc               R(θ)
+Bước 3: Translate về vị trí cũ        T(cx, cy)
+
+M = T(cx, cy) × R(θ) × T(-cx, -cy)
+```
+
+#### **Ma trận MVP (Model-View-Projection)**
+
+Trong 3D graphics, đây là composite transformation quan trọng nhất:
+
+```
+gl_Position = P × V × M × vertex
+
+P: Projection matrix (3D → 2D projection)
+V: View matrix (World space → Camera space)
+M: Model matrix (Object space → World space)
+
+// Kết hợp thành 1 ma trận duy nhất:
+MVP = P × V × M
+gl_Position = MVP × vertex  // Chỉ 1 phép nhân ma trận!
+```
+
+### 💻 Cài đặt trong dự án
+
+#### **File: `src/maths/Object3D.cc`** (dòng 25-45) - Model Matrix (SRT)
+
+```cpp
+glm::mat4 Object3D::getTransformationMatrix() {
+    glm::mat4 matrix = glm::mat4(1.0f);  // Identity matrix
+    
+    // 1. TRANSLATE (T)
+    matrix = glm::translate(matrix, position);
+    
+    // 2. ROTATE (R) - Euler angles (Yaw-Pitch-Roll)
+    matrix = glm::rotate(matrix, glm::radians(rotation.y), 
+                         glm::vec3(0, 1, 0));  // Yaw (Y-axis)
+    matrix = glm::rotate(matrix, glm::radians(rotation.x), 
+                         glm::vec3(1, 0, 0));  // Pitch (X-axis)
+    matrix = glm::rotate(matrix, glm::radians(rotation.z), 
+                         glm::vec3(0, 0, 1));  // Roll (Z-axis)
+    
+    // 3. SCALE (S)
+    matrix = glm::scale(matrix, scale);
+    
+    return matrix;  // M = T × R_y × R_x × R_z × S
+}
+```
+
+**Lưu ý**: Thứ tự thực tế là **T×R×S** (đọc từ trên xuống), nhưng do GLM dùng post-multiplication nên viết ngược.
+
+#### **File: `src/entities/gameObjects/Camera.cc`** (dòng 45-47) - View Matrix
+
+```cpp
+glm::mat4 Camera::getViewMatrix() {
+    // View matrix = Inverse của camera transformation
+    // V = [R^T | -R^T × position]
+    return glm::lookAt(
+        position,           // Camera position
+        position + front,   // Look-at point
+        up                  // Up vector
+    );
+}
+```
+
+**Công thức LookAt**:
+
+```
+forward = normalize(target - eye)
+right = normalize(cross(forward, worldUp))
+up = cross(right, forward)
+
+View Matrix = | right.x    right.y    right.z    -dot(right, eye)   |
+              | up.x       up.y       up.z       -dot(up, eye)      |
+              | -forward.x -forward.y -forward.z  dot(forward, eye) |
+              | 0          0          0           1                 |
+```
+
+#### **File: `shaders/entity.vert`** (dòng 18-28) - MVP Combination
+
+```glsl
+uniform mat4 projectionMatrix;  // P
+uniform mat4 viewMatrix;        // V
+uniform mat4 modelMatrix;       // M
+
+void main() {
+    vec4 worldPos = modelMatrix * vec4(position, 1.0);
+    vec4 viewPos = viewMatrix * worldPos;
+    gl_Position = projectionMatrix * viewPos;
+    
+    // Tương đương:
+    // gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(position, 1.0);
+    // gl_Position = (P × V × M) × vertex
+}
+```
+
+**Tối ưu**: CPU tính `MVP = P×V×M` một lần, GPU chỉ nhân `MVP×vertex` cho mỗi đỉnh.
+
+### 🎯 Ứng dụng
+- ✅ Mỗi entity có position, rotation, scale riêng
+- ✅ Camera transformation (inverse model matrix)
+- ✅ Hierarchical transformations (parent-child objects)
+- ✅ Animation blending
+
+---
+
+## 5️⃣ BIỂU DIỄN ĐỐI TƯỢNG 3D - 20/10
+
+### 🎓 Lý thuyết
+
+Có nhiều cách biểu diễn đối tượng 3D trong computer graphics:
+
+#### **Polygon Mesh (Lưới đa giác)**
+
+Cách phổ biến nhất: biểu diễn bề mặt bằng tập hợp các tam giác.
+
+```
+Vertex: (x, y, z, nx, ny, nz, u, v)
+  - Position: (x, y, z)
+  - Normal: (nx, ny, nz)  
+  - Texture coords: (u, v)
+
+Face: (v1, v2, v3) - 3 vertex indices
+
+Mesh = {Vertices[], Faces[]}
+```
+
+**Ưu điểm**:
+- Hardware acceleration (GPU rất nhanh với triangles)
+- Dễ transform, lighting, texturing
+- Flexible topology
+
+**Nhược điểm**:
+- Nhiều vertex cho bề mặt cong
+- File size lớn
+
+#### **Parametric Surfaces (Mặt tham số)**
+
+Biểu diễn bề mặt bằng phương trình toán học:
+
+```
+S(u, v) = (x(u, v), y(u, v), z(u, v))
+với u, v ∈ [0, 1]
+
+Ví dụ - Sphere:
+x = r × sin(πu) × cos(2πv)
+y = r × cos(πu)
+z = r × sin(πu) × sin(2πv)
+
+Heart curve (2D → 3D extrusion):
+x = 16 × sin³(t)
+y = 13×cos(t) - 5×cos(2t) - 2×cos(3t) - cos(4t)
+z = depth
+```
+
+**Ưu điểm**:
+- Compact representation
+- Infinite resolution
+- Easy to modify parameters
+
+#### **Constructive Solid Geometry (CSG)**
+
+Kết hợp các primitive shapes bằng boolean operations:
+
+```
+Union: A ∪ B
+Intersection: A ∩ B  
+Difference: A \ B
+
+Example:
+Cylinder - Sphere = Hollow cylinder
+Cube ∩ Sphere = Rounded cube
+```
+
+#### **Vertex Array Object (VAO) & Vertex Buffer Object (VBO)**
+
+Cách OpenGL lưu trữ mesh data:
+
+```cpp
+// 1. Tạo VAO
+GLuint vao;
+glGenVertexArrays(1, &vao);
+glBindVertexArray(vao);
+
+// 2. Tạo VBO cho vertices
+GLuint vbo;
+glGenBuffers(1, &vbo);
+glBindBuffer(GL_ARRAY_BUFFER, vbo);
+glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+// 3. Định nghĩa vertex attributes
+glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8*sizeof(float), (void*)0);  // Position
+glEnableVertexAttribArray(0);
+
+glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8*sizeof(float), (void*)(3*sizeof(float)));  // Normal
+glEnableVertexAttribArray(1);
+```
+
+### 💻 Cài đặt trong dự án
+
+#### **File: `src/models/RawModel.h`** - Mesh Data Structure
+
+```cpp
+class RawModel {
+private:
+    GLuint vaoID;        // Vertex Array Object ID
+    GLuint vboID;        // Vertex Buffer Object ID
+    int vertexCount;     // Số lượng đỉnh
+    
+public:
+    RawModel(GLuint vao, GLuint vbo, int count);
+    void render();  // glDrawArrays(GL_TRIANGLES, 0, vertexCount)
+};
+```
+
+#### **File: `src/models/Geometry.cc`** (dòng 250-290) - Parametric Heart
+
+```cpp
+RawModel Geometry::createHeart(float scale) {
+    std::vector<float> vertices, normals;
+    float step = 0.05f;  // Tessellation step
+    
+    // Parametric heart curve (2D)
+    for (float t = 0; t < 2 * M_PI; t += step) {
+        // Classic heart equation
+        float x = scale * 16 * pow(sin(t), 3);
+        float y = scale * (13*cos(t) - 5*cos(2*t) - 2*cos(3*t) - cos(4*t));
+        
+        // Extrude to 3D (add depth)
+        for (float d = -0.5f; d <= 0.5f; d += 0.1f) {
+            float z = d * scale;
+            
+            vertices.push_back(x);
+            vertices.push_back(y);
+            vertices.push_back(z);
+            
+            // Calculate normal vector (derivative of curve)
+            float dx_dt = scale * 48 * pow(sin(t), 2) * cos(t);
+            float dy_dt = scale * (-13*sin(t) + 10*sin(2*t) + 6*sin(3*t) + 4*sin(4*t));
+            
+            glm::vec3 tangent(dx_dt, dy_dt, 0);
+            glm::vec3 normal = glm::normalize(glm::vec3(-tangent.y, tangent.x, 0));
+            
+            normals.push_back(normal.x);
+            normals.push_back(normal.y);
+            normals.push_back(normal.z);
+        }
+    }
+    
+    return Loader::loadToVAO(vertices, normals);
+}
+```
+
+#### **File: `src/models/Geometry.cc`** (dòng 100-160) - Parametric Sphere
+
+```cpp
+RawModel Geometry::createSphere(float radius, int slices, int stacks) {
+    std::vector<float> vertices, normals;
+    
+    // Parametric sphere using spherical coordinates
+    for (int i = 0; i <= stacks; ++i) {
+        float phi = M_PI * i / stacks;  // Polar angle [0, π]
+        
+        for (int j = 0; j <= slices; ++j) {
+            float theta = 2 * M_PI * j / slices;  // Azimuthal angle [0, 2π]
+            
+            // Parametric equations
+            float x = radius * sin(phi) * cos(theta);
+            float y = radius * cos(phi);
+            float z = radius * sin(phi) * sin(theta);
+            
+            vertices.push_back(x);
+            vertices.push_back(y);
+            vertices.push_back(z);
+            
+            // For sphere, normal = normalize(position - center)
+            glm::vec3 normal = glm::normalize(glm::vec3(x, y, z));
+            normals.push_back(normal.x);
+            normals.push_back(normal.y);
+            normals.push_back(normal.z);
+        }
+    }
+    
+    // Generate triangles using index buffer
+    std::vector<unsigned int> indices;
+    for (int i = 0; i < stacks; ++i) {
+        for (int j = 0; j < slices; ++j) {
+            int first = i * (slices + 1) + j;
+            int second = first + slices + 1;
+            
+            // Triangle 1
+            indices.push_back(first);
+            indices.push_back(second);
+            indices.push_back(first + 1);
+            
+            // Triangle 2
+            indices.push_back(second);
+            indices.push_back(second + 1);
+            indices.push_back(first + 1);
+        }
+    }
+    
+    return Loader::loadToVAO(vertices, normals, indices);
+}
+```
+
+#### **File: `src/models/Geometry.cc`** (dòng 200-240) - Polygon Mesh Tetrahedron
+
+```cpp
+RawModel Geometry::createTetrahedron() {
+    // 4 vertices of regular tetrahedron
+    glm::vec3 v0(0, 1, 0);           // Top
+    glm::vec3 v1(-1, -1, 1);         // Front-left
+    glm::vec3 v2(1, -1, 1);          // Front-right
+    glm::vec3 v3(0, -1, -1);         // Back
+    
+    std::vector<float> vertices, normals;
+    
+    // Helper lambda to add triangle
+    auto addTriangle = [&](glm::vec3 a, glm::vec3 b, glm::vec3 c) {
+        // Calculate face normal
+        glm::vec3 normal = glm::normalize(glm::cross(b - a, c - a));
+        
+        // Add 3 vertices
+        for (glm::vec3 v : {a, b, c}) {
+            vertices.push_back(v.x);
+            vertices.push_back(v.y);
+            vertices.push_back(v.z);
+            
+            normals.push_back(normal.x);
+            normals.push_back(normal.y);
+            normals.push_back(normal.z);
+        }
+    };
+    
+    // 4 faces (triangles)
+    addTriangle(v0, v1, v2);  // Front
+    addTriangle(v0, v2, v3);  // Right
+    addTriangle(v0, v3, v1);  // Left
+    addTriangle(v1, v3, v2);  // Bottom
+    
+    return Loader::loadToVAO(vertices, normals);
+}
+```
+
+#### **File: `src/entities/gameObjects/Bird.cc`** (dòng 50-130) - Composite Object
+
+```cpp
+void Bird::createModel() {
+    // Composite object = nhiều primitive shapes
+    
+    // Body (sphere)
+    body = new Entity(Geometry::sphere(2.5f, 20, 20), BROWN);
+    body->setPosition(0, 0, 0);
+    
+    // Head (smaller sphere)
+    head = new Entity(Geometry::sphere(1.5f, 20, 20), BROWN);
+    head->setPosition(0, 2.0f, 1.5f);
+    
+    // Beak (cone/cockpit shape)
+    beak = new Entity(Geometry::cockpit(0.8f, 1.5f), ORANGE);
+    beak->setPosition(0, 2.0f, 2.5f);
+    
+    // Wings (boxes)
+    leftWing = new Entity(Geometry::box(0.5f, 2.0f, 3.0f), BROWNDARK);
+    leftWing->setPosition(-2.0f, 0, 0);
+    
+    rightWing = new Entity(Geometry::box(0.5f, 2.0f, 3.0f), BROWNDARK);
+    rightWing->setPosition(2.0f, 0, 0);
+    
+    // Tail (box)
+    tail = new Entity(Geometry::box(0.3f, 2.5f, 1.5f), BROWNDARK);
+    tail->setPosition(0, 0, -2.5f);
+}
+```
+
+**Hierarchical transformation**: Tất cả parts di chuyển cùng bird
+
+### 🎯 Ứng dụng
+- ✅ Heart collectibles (parametric curve)
+- ✅ Triangle obstacles (polygon mesh)
+- ✅ Bird model (composite object)
+- ✅ Terrain (procedural mesh generation)
+
+---
+
+## 6️⃣ QUAN SÁT ĐỐI TƯỢNG 3D (3D VIEWING) - 27/10
+
+### 🎓 Lý thuyết
+
+Quá trình chuyển từ 3D world sang 2D screen qua **Graphics Pipeline**:
+
+```
+Object Space → World Space → View Space → Clip Space → NDC → Screen Space
+     M             V              P          ÷w        Viewport
+```
+
+#### **View Matrix (Camera Transformation)**
+
+**LookAt Algorithm**:
+
+```
+Cho:
+- eye: Vị trí camera
+- target: Điểm nhìn
+- worldUp: Vector "lên" của thế giới (thường là (0, 1, 0))
+
+Tính:
+1. forward = normalize(target - eye)
+2. right = normalize(cross(forward, worldUp))
+3. up = cross(right, forward)
+
+View Matrix:
+V = | right.x    right.y    right.z    -dot(right, eye)   |
+    | up.x       up.y       up.z       -dot(up, eye)      |
+    | -forward.x -forward.y -forward.z  dot(forward, eye) |
+    | 0          0          0           1                 |
+```
+
+**Giải thích**: View matrix là **inverse** của camera transformation matrix
+
+#### **Projection Matrix**
+
+**Perspective Projection** (phối cảnh):
+
+```
+Tạo cảm giác "gần to xa nhỏ"
+
+Parameters:
+- fov: Field of view (góc nhìn), thường 45°-90°
+- aspect: Tỷ lệ width/height
+- near: Mặt phẳng gần
+- far: Mặt phẳng xa
+
+f = cotangent(fov/2)
+
+P = | f/aspect   0      0                      0                    |
+    | 0          f      0                      0                    |
+    | 0          0      (far+near)/(near-far)  2×far×near/(near-far)|
+    | 0          0      -1                     0                    |
+
+Sau khi nhân: (x', y', z', w')
+x_ndc = x'/w'  // Perspective divide
+y_ndc = y'/w'
+z_ndc = z'/w'
+```
+
+**Orthographic Projection** (trực giao):
+
+```
+Không có perspective, dùng cho CAD, strategy games
+
+P = | 2/(r-l)   0         0        -(r+l)/(r-l) |
+    | 0         2/(t-b)   0        -(t+b)/(t-b) |
+    | 0         0        -2/(f-n)  -(f+n)/(f-n) |
+    | 0         0         0         1           |
+
+l, r, b, t, n, f: left, right, bottom, top, near, far
+```
+
+### 💻 Cài đặt trong dự án
+
+#### **File: `src/entities/gameObjects/Camera.cc`** (dòng 45-52)
+
+```cpp
+glm::mat4 Camera::getViewMatrix() {
+    // GLM implementation of LookAt
+    return glm::lookAt(
+        position,           // eye
+        position + front,   // target = eye + direction
+        up                  // worldUp
+    );
+}
+
+glm::mat4 Camera::getProjectionMatrix() {
+    return glm::perspective(
+        glm::radians(getFov()),                    // fov = 60° → radians
+        (float)ACTUAL_WIDTH / (float)ACTUAL_HEIGHT, // aspect ratio
+        NEAR_PLANE,                                 // near = 1.0f
+        FAR_PLANE                                   // far = 1000.0f
+    );
+}
+```
+
+#### **File: `src/entities/gameObjects/Camera.cc`** (dòng 80-105) - Chase Camera
+
+```cpp
+void Camera::update() {
+    Bird* bird = Bird::theOne();
+    
+    // Smooth follow camera (lerp)
+    glm::vec3 targetPos = bird->getPosition() + glm::vec3(0, 5, 20);
+    position = glm::mix(position, targetPos, 0.1f);  // Linear interpolation
+    
+    // LookAt bird
+    glm::vec3 direction = glm::normalize(bird->getPosition() - position);
+    front = direction;
+    
+    // Update up vector (maintain perpendicular to forward)
+    right = glm::normalize(glm::cross(front, glm::vec3(0, 1, 0)));
+    up = glm::cross(right, front);
+}
+```
+
+**Giải thích**:
+- `glm::mix(a, b, t)` = lerp = a + t×(b - a)
+- Smooth following tránh camera giật cục
+- Always look at bird
+
+#### **File: `shaders/entity.vert`** (dòng 15-30)
+
+```glsl
+uniform mat4 projectionMatrix;
+uniform mat4 viewMatrix;
+uniform mat4 modelMatrix;
+
+layout(location = 0) in vec3 position;
+layout(location = 1) in vec3 normal;
+
+out vec3 FragPos;
+out vec3 Normal;
+
+void main() {
+    // Transform to world space
+    vec4 worldPos = modelMatrix * vec4(position, 1.0);
+    FragPos = worldPos.xyz;
+    
+    // Transform to view space
+    vec4 viewPos = viewMatrix * worldPos;
+    
+    // Transform to clip space (with perspective)
+    gl_Position = projectionMatrix * viewPos;
+    
+    // Transform normal (use normal matrix to handle non-uniform scaling)
+    Normal = mat3(transpose(inverse(modelMatrix))) * normal;
+}
+```
+
+**Pipeline steps**:
+1. Model matrix: Object space → World space
+2. View matrix: World space → Camera space  
+3. Projection matrix: Camera space → Clip space (homogeneous coords)
+4. Perspective divide (tự động): Clip space → NDC
+5. Viewport transform (tự động): NDC → Screen coords
+
+### 🎯 Ứng dụng
+- ✅ Perspective projection (realistic 3D)
+- ✅ Chase camera following bird
+- ✅ FOV 60° for wide viewing angle
+- ✅ Near/far plane clipping
+
+---
+
+## 7️⃣ VẼ ĐƯỜNG/MẶT CONG (CURVE DRAWING) - 10/11
+
+### 🎓 Lý thuyết
+
+#### **Parametric Curves**
+
+Đường cong được định nghĩa bởi hàm tham số:
+
+```
+C(t) = (x(t), y(t), z(t)),  t ∈ [a, b]
+
+Example - Circle:
+x(t) = r × cos(t)
+y(t) = r × sin(t)
+t ∈ [0, 2π]
+```
+
+#### **Bézier Curves**
+
+Đường cong được điều khiển bởi control points:
+
+**Linear Bézier** (2 points):
+```
+B(t) = (1-t)×P₀ + t×P₁,  t ∈ [0, 1]
+```
+
+**Quadratic Bézier** (3 points):
+```
+B(t) = (1-t)²×P₀ + 2(1-t)t×P₁ + t²×P₂
+```
+
+**Cubic Bézier** (4 points):
+```
+B(t) = (1-t)³×P₀ + 3(1-t)²t×P₁ + 3(1-t)t²×P₂ + t³×P₃
+
+Derivative (tangent):
+B'(t) = 3(1-t)²(P₁-P₀) + 6(1-t)t(P₂-P₁) + 3t²(P₃-P₂)
+```
+
+#### **B-Splines**
+
+Smooth curve through multiple control points với local control:
+
+```
+Basis function: N_{i,k}(t)
+
+Curve: C(t) = Σ P_i × N_{i,k}(t)
+
+Properties:
+- Local control (move 1 point affects nearby only)
+- C² continuity (smooth)
+- Does not pass through control points (except endpoints)
+```
+
+#### **Tessellation (Chia nhỏ)**
+
+Chuyển đường cong parametric thành line segments:
+
+```cpp
+std::vector<vec3> tessellate(Function curve, float tMin, float tMax, float step) {
+    std::vector<vec3> points;
+    for (float t = tMin; t <= tMax; t += step) {
+        points.push_back(curve(t));
+    }
+    return points;
+}
+
+// Adaptive tessellation (denser where curvature is high)
+float adaptiveStep(float curvature) {
+    return 1.0 / (1.0 + curvature);  // Smaller step for high curvature
+}
+```
+
+### 💻 Cài đặt trong dự án
+
+#### **File: `src/models/Geometry.cc`** (dòng 250-300) - Heart Curve
+
+```cpp
+RawModel Geometry::createHeart(float scale) {
+    std::vector<float> vertices, normals;
+    float step = 0.05f;  // Tessellation resolution
+    
+    // 2D Parametric heart equation
+    auto heartX = [](float t, float s) {
+        return s * 16 * pow(sin(t), 3);
+    };
+    
+    auto heartY = [](float t, float s) {
+        return s * (13*cos(t) - 5*cos(2*t) - 2*cos(3*t) - cos(4*t));
+    };
+    
+    // Tessellate curve
+    for (float t = 0; t < 2 * M_PI; t += step) {
+        float x = heartX(t, scale);
+        float y = heartY(t, scale);
+        
+        // Extrude to 3D
+        for (float depth = -0.5f; depth <= 0.5f; depth += 0.1f) {
+            float z = depth * scale;
+            
+            vertices.push_back(x);
+            vertices.push_back(y);
+            vertices.push_back(z);
+            
+            // Tangent vector (derivative)
+            float dx_dt = scale * 48 * pow(sin(t), 2) * cos(t);
+            float dy_dt = scale * (-13*sin(t) + 10*sin(2*t) + 
+                                    6*sin(3*t) + 4*sin(4*t));
+            
+            // Normal = perpendicular to tangent (2D)
+            glm::vec3 tangent(dx_dt, dy_dt, 0);
+            glm::vec3 normal = glm::normalize(glm::vec3(-tangent.y, tangent.x, 0));
+            
+            normals.push_back(normal.x);
+            normals.push_back(normal.y);
+            normals.push_back(normal.z);
+        }
+    }
+    
+    return Loader::loadToVAO(vertices, normals);
+}
+```
+
+**Công thức toán học**:
+
+```
+Heart curve (Cartesian):
+(x² + y² - 1)³ - x²y³ = 0
+
+Parametric form (easier to tessellate):
+x(t) = 16×sin³(t)
+y(t) = 13×cos(t) - 5×cos(2t) - 2×cos(3t) - cos(4t)
+
+Derivative (for normal calculation):
+dx/dt = 48×sin²(t)×cos(t)
+dy/dt = -13×sin(t) + 10×sin(2t) + 6×sin(3t) + 4×sin(4t)
+```
+
+#### **File: `src/entities/gameObjects/Bird.cc`** (dòng 180-195) - Sine Wave Animation
+
+```cpp
+void Bird::updateWings() {
+    float time = glfwGetTime();
+    
+    // Sine wave curve for smooth flapping
+    float wingSpeed = 5.0f;
+    float wingAmplitude = glm::radians(30.0f);
+    
+    // Parametric curve: angle(t) = A×sin(ωt)
+    float angle = wingAmplitude * sin(wingSpeed * time);
+    
+    // Apply rotation
+    leftWing->setRotationZ(angle);
+    rightWing->setRotationZ(-angle);  // Mirror
+}
+```
+
+**Animation curve**:
+```
+angle(t) = 30° × sin(5t)
+Period T = 2π/5 ≈ 1.26 seconds
+Frequency f = 5/(2π) ≈ 0.8 Hz
+```
+
+#### **File: `src/models/Geometry.cc`** (dòng 180-210) - Terrain Wave
+
+```cpp
+RawModel Geometry::createSea(float width, float depth, int segments) {
+    std::vector<float> vertices, normals;
+    
+    for (int i = 0; i < segments; ++i) {
+        for (int j = 0; j < segments; ++j) {
+            float x = (i / (float)segments - 0.5f) * width;
+            float z = (j / (float)segments - 0.5f) * depth;
+            
+            // 2D sine wave for terrain height
+            float y = 0.5f * sin(x * 0.5f) * cos(z * 0.5f);
+            
+            vertices.push_back(x);
+            vertices.push_back(y);
+            vertices.push_back(z);
+            
+            // Approximate normal using partial derivatives
+            float dydx = 0.25f * cos(x * 0.5f) * cos(z * 0.5f);
+            float dydz = -0.25f * sin(x * 0.5f) * sin(z * 0.5f);
+            
+            glm::vec3 normal = glm::normalize(glm::vec3(-dydx, 1, -dydz));
+            normals.push_back(normal.x);
+            normals.push_back(normal.y);
+            normals.push_back(normal.z);
+        }
+    }
+    
+    return Loader::loadToVAO(vertices, normals);
+}
+```
+
+### 🎯 Ứng dụng
+- ✅ Heart shape (parametric curve with extrusion)
+- ✅ Wing flapping (sine wave animation)
+- ✅ Terrain waves (2D sine function)
+- ✅ Sphere/cylinder (parametric surfaces)
+
+---
+
+## 8️⃣ KHỬ KHUẤT (HIDDEN SURFACE REMOVAL) - 17/11
+
+### 🎓 Lý thuyết
+
+Loại bỏ bề mặt bị che khuất để tránh render vật phía sau.
+
+#### **Z-Buffer Algorithm (Depth Buffer)**
+
+Thuật toán phổ biến nhất, được GPU hardware hỗ trợ:
+
+```
+Initialization:
+for each pixel (x, y):
+    depth_buffer[x][y] = ∞
+    color_buffer[x][y] = background
+
+Rendering:
+for each triangle:
+    for each pixel (x, y) in triangle:
+        z = interpolate depth at (x, y)
+        
+        if z < depth_buffer[x][y]:  // Closer to camera
+            depth_buffer[x][y] = z
+            color_buffer[x][y] = shaded_color
+```
+
+**Độ phức tạp**: O(n×p) với n = triangles, p = pixels per triangle
+
+**Ưu điểm**:
+- Simple, fast
+- Hardware accelerated
+- Works with any polygon order
+
+**Nhược điểm**:
+- Memory cost (depth buffer = screen size)
+- Transparency issues
+
+#### **Painter's Algorithm**
+
+Render từ xa đến gần (back-to-front):
+
+```
+1. Sort all polygons by depth (distance from camera)
+2. Render from farthest to nearest
+3. Nearer polygons paint over farther ones
+```
+
+**Nhược điểm**:
+- Cannot handle overlapping cycles (A behind B, B behind C, C behind A)
+- Expensive sorting O(n log n)
+- Not hardware accelerated
+
+#### **Back-Face Culling**
+
+Loại bỏ mặt quay mặt ra ngoài (không nhìn thấy):
+
+```cpp
+// Dot product test
+vec3 normal = cross(v1 - v0, v2 - v0);
+vec3 viewDir = normalize(cameraPos - v0);
+
+if (dot(normal, viewDir) < 0) {
+    // Back-facing → cull (don't render)
+}
+```
+
+**Đối với mesh kín**: Loại bỏ ~50% polygons!
+
+#### **BSP Tree (Binary Space Partitioning)**
+
+Phân chia không gian thành tree structure:
+
+```
+Build phase:
+1. Choose splitting plane
+2. Classify polygons: front, back, or split
+3. Recursively build left and right subtrees
+
+Render phase:
+Traverse tree in back-to-front order relative to camera
+```
+
+**Ưu điểm**: Render order luôn đúng, không cần sort
+**Nhược điểm**: Expensive pre-processing, static scenes only
+
+### 💻 Cài đặt trong dự án
+
+#### **File: `src/renderEngine/DisplayManager.cc`** (dòng 50-65)
+
+```cpp
+void DisplayManager::init() {
+    // Enable depth testing (Z-buffer)
+    glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_LESS);  // Pass if incoming depth < current depth
+    
+    // Enable back-face culling
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_BACK);   // Cull back faces
+    glFrontFace(GL_CCW);   // Counter-clockwise = front face
+    
+    // Depth buffer precision
+    glDepthRange(0.0, 1.0);  // Map [near, far] to [0, 1]
+}
+```
+
+#### **File: `src/renderEngine/Renderer.cc`** (dòng 20-30)
+
+```cpp
+void Renderer::render() {
+    // Clear color and depth buffers
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    //      ↑ Reset color to background
+    //                              ↑ Reset depth to 1.0 (far)
+    
+    // Render all entities
+    entityShader.render();  // GPU performs Z-test automatically
+    seaShader.render();
+    uiShader.render();
+}
+```
+
+#### **File: `shaders/entity.frag`** - Fragment Shader
+
+```glsl
+void main() {
+    // Calculate fragment color
+    vec3 fragColor = (ambient + diffuse + specular) * color;
+    colorTexture = vec4(fragColor, 1.0);
+    
+    // GPU automatically writes gl_FragDepth to depth buffer
+    // gl_FragDepth = gl_FragCoord.z (automatic)
+    
+    // Depth test happens after fragment shader:
+    // if (gl_FragDepth < depthBuffer[x][y]) {
+    //     depthBuffer[x][y] = gl_FragDepth;
+    //     colorBuffer[x][y] = colorTexture;
+    // }
+}
+```
+
+#### **File: `src/entities/gameObjects/HeartHolder.cc`** - Frustum Culling
+
+```cpp
+void HeartHolder::update() {
+    for (auto it = hearts.begin(); it != hearts.end();) {
+        // Frustum culling: remove objects outside view
+        if ((*it)->getZ() > Camera::theOne()->getZ() + 50) {
+            delete *it;
+            it = hearts.erase(it);  // Don't even send to GPU
+        } else {
+            ++it;
+        }
+    }
+}
+```
+
+**Hierarchy of culling**:
+1. **Frustum culling** (CPU): Remove entire objects
+2. **Back-face culling** (GPU): Remove back-facing triangles
+3. **Z-buffer** (GPU): Remove occluded pixels
+
+#### **Early Z-Test Optimization**
+
+Modern GPUs perform depth test **before** fragment shader:
+
+```
+Vertex Shader → Rasterization → Early Z-Test → Fragment Shader → Late Z-Test
+                                      ↓
+                            Skip if depth test fails
+                            (Huge performance gain!)
+```
+
+### 🎯 Ứng dụng
+- ✅ Z-buffer removes hidden surfaces automatically
+- ✅ Back-face culling saves ~50% rendering
+- ✅ Frustum culling removes off-screen objects
+- ✅ Early Z-test skips expensive fragment shading
+
+---
+
+## 9️⃣ TÔ BÓNG PHONG (PHONG SHADING) - 24/11
+
+### 🎓 Lý thuyết
+
+**Phong Reflection Model** mô phỏng cách ánh sáng tương tác với bề mặt:
+
+```
+I = I_ambient + I_diffuse + I_specular
+
+I_ambient  = k_a × L_a
+I_diffuse  = k_d × L_d × max(N·L, 0)
+I_specular = k_s × L_s × max(R·V, 0)^shininess
+```
+
+Trong đó:
+- `k_a, k_d, k_s`: Hệ số phản xạ (ambient, diffuse, specular)
+- `L_a, L_d, L_s`: Cường độ ánh sáng
+- `N`: Normal vector (pháp tuyến bề mặt)
+- `L`: Light direction (hướng ánh sáng)
+- `R`: Reflection vector
+- `V`: View direction (hướng nhìn)
+- `shininess`: Độ bóng (4-128)
+
+#### **Ambient Lighting**
+
+Ánh sáng môi trường (không phụ thuộc hướng):
+
+```
+I_ambient = k_a × L_a
+
+// Không hướng, không đổ bóng
+// Đảm bảo không có vùng hoàn toàn đen
+```
+
+#### **Diffuse Lighting (Lambert)**
+
+Ánh sáng khuếch tán (mặt nhám):
+
+```
+I_diffuse = k_d × L_d × max(N·L, 0)
+
+N·L = cos(θ)  // θ = góc giữa normal và light
+// Sáng nhất khi θ = 0° (vuông góc)
+// Tối khi θ ≥ 90° (ánh sáng từ phía sau)
+```
+
+#### **Specular Lighting (Phong)**
+
+Ánh sáng phản chiếu (mặt bóng):
+
+```
+R = 2(N·L)N - L  // Reflection vector
+I_specular = k_s × L_s × max(R·V, 0)^n
+
+n: shininess parameter
+  - n = 1: Mặt nhám (specular rộng)
+  - n = 128: Mặt rất bóng (specular nhọn)
+```
+
+**Blinn-Phong** (tối ưu hơn):
+
+```
+H = normalize(L + V)  // Halfway vector
+I_specular = k_s × L_s × max(N·H, 0)^n
+
+// Nhanh hơn vì không cần tính R
+```
+
+#### **Gouraud vs Phong Shading**
+
+| | Gouraud | Phong |
+|---|---|---|
+| **Tính toán** | Tại vertex | Tại mỗi pixel |
+| **Nội suy** | Color | Normal vector |
+| **Hiệu năng** | Nhanh hơn | Chậm hơn |
+| **Chất lượng** | Specular highlights bị mất | Chính xác |
+| **Mach banding** | Có thể xảy ra | Không |
+
+### 💻 Cài đặt trong dự án
+
+#### **File: `shaders/entity.frag`** (dòng 40-85) - Phong Shading
+
+```glsl
+uniform vec3 lightPos;
+uniform vec3 lightColor;
+uniform float ambientLightIntensity;
+uniform vec3 color;
+
+in vec3 FragPos;    // World position (interpolated)
+in vec3 Normal;     // Normal vector (interpolated)
+in vec4 ViewSpace;  // View space position
+
+void main() {
+    vec3 norm = normalize(Normal);
+    vec3 lightDir = normalize(FragPos - lightPos);  // Light direction
+    
+    // 1. AMBIENT
+    float ambientStrength = 0.15 * ambientLightIntensity;
+    vec3 ambient = ambientStrength * lightColor;
+    
+    // 2. DIFFUSE (Lambert)
+    float diff = max(dot(norm, lightDir), 0.0);
+    vec3 diffuse = diff * lightColor;
+    
+    // 3. SPECULAR (Blinn-Phong)
+    float specularStrength = 0.5;
+    vec3 viewDir = normalize(ViewSpace.xyz);
+    vec3 halfwayDir = normalize(lightDir + viewDir);
+    float specularFactor = pow(max(dot(norm, halfwayDir), 0.0), 32);  // shininess = 32
+    vec3 specular = specularStrength * specularFactor * lightColor;
+    
+    // COMBINE
+    vec3 fragColor = (ambient + diffuse + specular) * color;
+    
+    // FOG
+    float dist = abs(ViewSpace.z);
+    float fogFactor = clamp((FAR - dist) / (FAR - NEAR), 0.0, 1.0);
+    vec3 finalColor = mix(fogColor, fragColor, fogFactor);
+    
+    colorTexture = vec4(finalColor, 1.0);
+}
+```
+
+**Giải thích**:
+- **Per-pixel lighting**: Phong shading tính toán cho MỖI fragment
+- **Blinn-Phong**: Dùng halfway vector thay vì reflection (faster)
+- **Shininess = 32**: Medium glossiness
+
+#### **File: `shaders/entity.vert`** (dòng 15-35) - Normal Transformation
+
+```glsl
+uniform mat4 modelMatrix;
+uniform mat4 viewMatrix;
+uniform mat4 projectionMatrix;
+
+layout(location = 0) in vec3 position;
+layout(location = 1) in vec3 normal;
+
+out vec3 FragPos;
+out vec3 Normal;
+out vec4 ViewSpace;
+
+void main() {
+    // Transform position
+    vec4 worldPos = modelMatrix * vec4(position, 1.0);
+    FragPos = worldPos.xyz;
+    
+    ViewSpace = viewMatrix * worldPos;
+    gl_Position = projectionMatrix * ViewSpace;
+    
+    // Transform normal (use normal matrix for non-uniform scaling)
+    mat3 normalMatrix = mat3(transpose(inverse(modelMatrix)));
+    Normal = normalMatrix * normal;
+}
+```
+
+**Normal matrix**:
+```
+Normal transform ≠ Position transform
+
+If model has non-uniform scaling:
+normalMatrix = transpose(inverse(modelMatrix))
+
+Reason: Normals are pseudo-vectors (perpendicular to surface)
+```
+
+#### **Comparison: Gouraud Implementation** (không dùng trong project)
+
+```glsl
+// Vertex Shader (Gouraud)
+void main() {
+    // Calculate lighting AT VERTEX
+    vec3 norm = normalize(normalMatrix * normal);
+    vec3 lightDir = normalize(lightPos - worldPos);
+    
+    float diff = max(dot(norm, lightDir), 0.0);
+    vec3 diffuse = diff * lightColor;
+    
+    vertexColor = (ambient + diffuse) * color;  // Output color
+    
+    gl_Position = MVP * vec4(position, 1.0);
+}
+
+// Fragment Shader (Gouraud)
+in vec3 vertexColor;  // Interpolated color from vertices
+
+void main() {
+    colorTexture = vec4(vertexColor, 1.0);  // Just use interpolated color
+}
+```
+
+**Tại sao Phong tốt hơn**:
+- Specular highlights chính xác (không bị mất)
+- Smooth shading trên bề mặt cong
+- Better for low-poly models
+
+### 🎯 Ứng dụng
+- ✅ Realistic lighting on bird, hearts, triangles
+- ✅ Specular highlights on glossy surfaces
+- ✅ Smooth shading with normal interpolation
+- ✅ Per-pixel accuracy
+
+---
 
 ---
 
